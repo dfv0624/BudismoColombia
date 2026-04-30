@@ -4,38 +4,38 @@ import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Headphones, Brain, Users, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-const features = [
-  {
-    icon: Headphones,
-    title: "Guided Meditation",
-    description:
-      "Immerse yourself in expertly crafted meditation sessions led by world-class mindfulness teachers. From 3-minute breathers to deep hour-long journeys.",
-    gradient: "from-primary/20 to-amber-400/20",
-    iconBg: "bg-primary/10",
-    iconColor: "text-primary",
-  },
-  {
-    icon: Brain,
-    title: "Emotional Intelligence",
-    description:
-      "Develop a deeper understanding of your emotions through AI-powered insights and personalized recommendations based on your unique mental patterns.",
-    gradient: "from-accent/20 to-blue-400/20",
-    iconBg: "bg-accent/10",
-    iconColor: "text-accent",
-  },
-  {
-    icon: Users,
-    title: "Silent Community",
-    description:
-      "Connect with like-minded souls in our peaceful community spaces. Share your journey, find accountability partners, and grow together in silence.",
-    gradient: "from-emerald-400/20 to-teal-400/20",
-    iconBg: "bg-emerald-500/10",
-    iconColor: "text-emerald-500",
-  },
-]
+import { useLanguage } from "@/lib/language-context"
 
 export function FeatureCards() {
+  const { t } = useLanguage()
+
+  const features = [
+    {
+      icon: Headphones,
+      title: t.guidedMeditation,
+      description: t.guidedMeditationDesc,
+      gradient: "from-primary/20 to-amber-400/20",
+      iconBg: "bg-primary/10",
+      iconColor: "text-primary",
+    },
+    {
+      icon: Brain,
+      title: t.emotionalIntelligence,
+      description: t.emotionalIntelligenceDesc,
+      gradient: "from-accent/20 to-blue-400/20",
+      iconBg: "bg-accent/10",
+      iconColor: "text-accent",
+    },
+    {
+      icon: Users,
+      title: t.silentCommunity,
+      description: t.silentCommunityDesc,
+      gradient: "from-emerald-400/20 to-teal-400/20",
+      iconBg: "bg-emerald-500/10",
+      iconColor: "text-emerald-500",
+    },
+  ]
+
   return (
     <section className="py-24 bg-background" id="support">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -48,10 +48,10 @@ export function FeatureCards() {
           className="text-center mb-16"
         >
           <h2 className="font-serif text-4xl md:text-5xl text-foreground mb-4">
-            Pathways to Inner Peace
+            {t.pathwaysToInnerPeace}
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Discover the tools and community that will support your journey to tranquility.
+            {t.discoverTools}
           </p>
         </motion.div>
 
@@ -93,7 +93,7 @@ export function FeatureCards() {
                       variant="ghost"
                       className="p-0 h-auto font-medium text-foreground hover:text-primary hover:bg-transparent group/btn"
                     >
-                      Learn more
+                      {t.learnMore}
                       <ArrowRight className="ml-2 w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                     </Button>
                   </div>

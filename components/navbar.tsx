@@ -2,18 +2,21 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, ChevronDown } from "lucide-react"
+import { Menu, X, ChevronDown, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-const navLinks = [
-  { name: "Our Mission", href: "#mission" },
-  { name: "Support Us", href: "#support" },
-  { name: "Contact", href: "#contact" },
-]
+import { useLanguage } from "@/lib/language-context"
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false)
+  const { language, setLanguage, t } = useLanguage()
+
+  const navLinks = [
+    { name: t.ourMission, href: "#mission" },
+    { name: t.supportUs, href: "#support" },
+    { name: t.contact, href: "#contact" },
+  ]
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,6 +25,11 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
+
+  const toggleLanguage = (lang: "en" | "es") => {
+    setLanguage(lang)
+    setIsLangMenuOpen(false)
+  }
 
   return (
     <>
@@ -45,7 +53,7 @@ export function Navbar() {
               whileTap={{ scale: 0.98 }}
             >
               <span className="font-serif text-2xl font-semibold text-white tracking-tight">
-                CalmMind
+                Anicca Mind
               </span>
             </motion.a>
 
@@ -64,11 +72,44 @@ export function Navbar() {
               ))}
               
               {/* Language Dropdown */}
-              <div className="relative group">
-                <button className="flex items-center gap-1 text-white/80 hover:text-white text-sm font-medium transition-colors duration-300">
-                  EN
-                  <ChevronDown className="w-4 h-4" />
+              <div className="relative">
+                <button
+                  onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+                  className="flex items-center gap-1 text-white/80 hover:text-white text-sm font-medium transition-colors duration-300"
+                >
+                  <Globe className="w-4 h-4" />
+                  {language.toUpperCase()}
+                  <ChevronDown className={`w-4 h-4 transition-transform ${isLangMenuOpen ? "rotate-180" : ""}`} />
                 </button>
+                
+                <AnimatePresence>
+                  {isLangMenuOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full right-0 mt-2 bg-card rounded-xl shadow-lg border border-border overflow-hidden min-w-[120px]"
+                    >
+                      <button
+                        onClick={() => toggleLanguage("en")}
+                        className={`w-full px-4 py-3 text-left text-sm hover:bg-muted transition-colors flex items-center gap-2 ${
+                          language === "en" ? "text-primary font-medium" : "text-foreground"
+                        }`}
+                      >
+                        English
+                      </button>
+                      <button
+                        onClick={() => toggleLanguage("es")}
+                        className={`w-full px-4 py-3 text-left text-sm hover:bg-muted transition-colors flex items-center gap-2 ${
+                          language === "es" ? "text-primary font-medium" : "text-foreground"
+                        }`}
+                      >
+                        Espanol
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
 
@@ -112,12 +153,24 @@ export function Navbar() {
                   {link.name}
                 </motion.a>
               ))}
-              <Button
-                variant="outline"
-                className="mt-4 border-white/30 text-white hover:bg-white/10"
-              >
-                EN
-              </Button>
+              
+              {/* Mobile Language Toggle */}
+              <div className="flex gap-4 mt-4">
+                <Button
+                  variant={language === "en" ? "default" : "outline"}
+                  onClick={() => toggleLanguage("en")}
+                  className={language === "en" ? "" : "border-white/30 text-white hover:bg-white/10"}
+                >
+                  English
+                </Button>
+                <Button
+                  variant={language === "es" ? "default" : "outline"}
+                  onClick={() => toggleLanguage("es")}
+                  className={language === "es" ? "" : "border-white/30 text-white hover:bg-white/10"}
+                >
+                  Espanol
+                </Button>
+              </div>
             </div>
           </motion.div>
         )}

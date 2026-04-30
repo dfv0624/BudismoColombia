@@ -3,35 +3,35 @@
 import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Star } from "lucide-react"
-
-const testimonials = [
-  {
-    name: "Sarah Mitchell",
-    role: "Yoga Instructor",
-    avatar: "SM",
-    content:
-      "CalmMind has transformed my daily practice. The guided meditations are beautifully crafted, and the emotion tracking helps me understand my patterns. I feel more centered than ever.",
-    rating: 5,
-  },
-  {
-    name: "James Chen",
-    role: "Software Engineer",
-    avatar: "JC",
-    content:
-      "As someone who struggles with anxiety, finding CalmMind was life-changing. The breathing exercises and instant guidance have become my go-to tools during stressful workdays.",
-    rating: 5,
-  },
-  {
-    name: "Elena Rodriguez",
-    role: "Healthcare Professional",
-    avatar: "ER",
-    content:
-      "The silent community feature is beautiful. Knowing others are meditating alongside me, even in silence, creates a sense of connection I never expected from an app.",
-    rating: 5,
-  },
-]
+import { useLanguage } from "@/lib/language-context"
 
 export function Testimonials() {
+  const { t } = useLanguage()
+
+  const testimonials = [
+    {
+      name: "Sarah Mitchell",
+      role: t.yogaInstructor,
+      avatar: "SM",
+      content: t.testimonial1,
+      rating: 5,
+    },
+    {
+      name: "James Chen",
+      role: t.softwareEngineer,
+      avatar: "JC",
+      content: t.testimonial2,
+      rating: 5,
+    },
+    {
+      name: "Elena Rodriguez",
+      role: t.healthcareProfessional,
+      avatar: "ER",
+      content: t.testimonial3,
+      rating: 5,
+    },
+  ]
+
   return (
     <section className="py-24 bg-secondary/30">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -44,10 +44,10 @@ export function Testimonials() {
           className="text-center mb-16"
         >
           <h2 className="font-serif text-4xl md:text-5xl text-foreground mb-4">
-            Stories of Transformation
+            {t.storiesOfTransformation}
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Hear from those who have found their path to inner peace.
+            {t.hearFromThose}
           </p>
         </motion.div>
 

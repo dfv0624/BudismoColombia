@@ -4,8 +4,11 @@ import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import { useLanguage } from "@/lib/language-context"
 
 export function HeroSection() {
+  const { t } = useLanguage()
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
@@ -32,8 +35,8 @@ export function HeroSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl text-white leading-tight tracking-tight text-balance">
-              Find Peace in the Edge of{" "}
-              <span className="italic text-primary">Silence</span>
+              {t.heroTitle}{" "}
+              <span className="italic text-primary">{t.heroTitleHighlight}</span>
             </h1>
           </motion.div>
 
@@ -43,8 +46,7 @@ export function HeroSection() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mt-6 text-lg md:text-xl text-white/80 leading-relaxed max-w-2xl"
           >
-            Discover tranquility through mindful meditation and embrace the
-            stillness that exists between thoughts and breath.
+            {t.heroSubtitle}
           </motion.p>
 
           <motion.div
@@ -57,7 +59,7 @@ export function HeroSection() {
               size="lg"
               className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8 py-6 text-base font-medium group"
             >
-              Begin Your Journey
+              {t.beginJourney}
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button
@@ -65,7 +67,7 @@ export function HeroSection() {
               size="lg"
               className="border-white/30 text-white hover:bg-white/10 hover:border-white/50 rounded-full px-8 py-6 text-base font-medium backdrop-blur-sm"
             >
-              Explore Practices
+              {t.explorePractices}
             </Button>
           </motion.div>
         </div>

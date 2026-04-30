@@ -14,6 +14,7 @@ import {
   BarChart,
   Bar,
 } from "recharts"
+import { useLanguage } from "@/lib/language-context"
 
 const moodData = [
   { day: "Mon", mood: 65, meditation: 15 },
@@ -25,42 +26,44 @@ const moodData = [
   { day: "Sun", mood: 85, meditation: 25 },
 ]
 
-const stats = [
-  {
-    label: "Meditation Streak",
-    value: "7",
-    unit: "days",
-    icon: Flame,
-    color: "text-orange-500",
-    bgColor: "bg-orange-500/10",
-  },
-  {
-    label: "Stress Reduction",
-    value: "23",
-    unit: "%",
-    icon: TrendingDown,
-    color: "text-emerald-500",
-    bgColor: "bg-emerald-500/10",
-  },
-  {
-    label: "Minutes Practiced",
-    value: "160",
-    unit: "min",
-    icon: Clock,
-    color: "text-blue-500",
-    bgColor: "bg-blue-500/10",
-  },
-  {
-    label: "Average Mood",
-    value: "77",
-    unit: "/100",
-    icon: Smile,
-    color: "text-primary",
-    bgColor: "bg-primary/10",
-  },
-]
-
 export function DailyTracker() {
+  const { t } = useLanguage()
+
+  const stats = [
+    {
+      label: t.meditationStreak,
+      value: "7",
+      unit: t.days,
+      icon: Flame,
+      color: "text-orange-500",
+      bgColor: "bg-orange-500/10",
+    },
+    {
+      label: t.stressReduction,
+      value: "23",
+      unit: "%",
+      icon: TrendingDown,
+      color: "text-emerald-500",
+      bgColor: "bg-emerald-500/10",
+    },
+    {
+      label: t.minutesPracticed,
+      value: "160",
+      unit: t.min,
+      icon: Clock,
+      color: "text-blue-500",
+      bgColor: "bg-blue-500/10",
+    },
+    {
+      label: t.averageMood,
+      value: "77",
+      unit: "/100",
+      icon: Smile,
+      color: "text-primary",
+      bgColor: "bg-primary/10",
+    },
+  ]
+
   return (
     <section className="py-24 bg-secondary/30">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -73,10 +76,10 @@ export function DailyTracker() {
           className="text-center mb-16"
         >
           <h2 className="font-serif text-4xl md:text-5xl text-foreground mb-4">
-            Your Calm Journey
+            {t.yourCalmJourney}
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Track your progress and celebrate every moment of mindfulness.
+            {t.trackProgress}
           </p>
         </motion.div>
 
@@ -126,7 +129,7 @@ export function DailyTracker() {
           >
             <Card className="p-6 h-full">
               <h3 className="font-serif text-xl text-foreground mb-6">
-                Mood This Week
+                {t.moodThisWeek}
               </h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
@@ -183,7 +186,7 @@ export function DailyTracker() {
           >
             <Card className="p-6 h-full">
               <h3 className="font-serif text-xl text-foreground mb-6">
-                Minutes Practiced
+                {t.minutesPracticed}
               </h3>
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">

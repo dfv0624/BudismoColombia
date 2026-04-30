@@ -17,108 +17,110 @@ import {
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-
-const emotions = [
-  {
-    id: "anxiety",
-    name: "Anxiety",
-    icon: Wind,
-    color: "from-blue-400/20 to-cyan-400/20",
-    borderColor: "border-blue-400/30",
-    iconColor: "text-blue-400",
-    guidance: {
-      exercise: "4-7-8 Breathing Technique",
-      exerciseDesc: "Inhale for 4 seconds, hold for 7, exhale for 8. This activates your parasympathetic nervous system.",
-      quote: "Anxiety does not empty tomorrow of its sorrows, but only empties today of its strength.",
-      author: "Charles Spurgeon",
-      action: "Take 3 deep breaths right now. Ground yourself by naming 5 things you can see.",
-      duration: "3 min",
-    },
-  },
-  {
-    id: "overthinking",
-    name: "Overthinking",
-    icon: Brain,
-    color: "from-purple-400/20 to-pink-400/20",
-    borderColor: "border-purple-400/30",
-    iconColor: "text-purple-400",
-    guidance: {
-      exercise: "Thought Labeling Practice",
-      exerciseDesc: "Observe each thought without judgment. Simply label it as 'thinking' and let it pass like a cloud.",
-      quote: "The mind is a wonderful servant but a terrible master.",
-      author: "Robin Sharma",
-      action: "Write down your top 3 worries, then ask: Will this matter in 5 years?",
-      duration: "5 min",
-    },
-  },
-  {
-    id: "stress",
-    name: "Stress",
-    icon: CloudRain,
-    color: "from-gray-400/20 to-slate-400/20",
-    borderColor: "border-gray-400/30",
-    iconColor: "text-gray-400",
-    guidance: {
-      exercise: "Progressive Muscle Relaxation",
-      exerciseDesc: "Tense each muscle group for 5 seconds, then release. Start from your toes and work up to your head.",
-      quote: "It is not stress that kills us, it is our reaction to it.",
-      author: "Hans Selye",
-      action: "Step away from your current task for 5 minutes. Take a short walk or stretch.",
-      duration: "7 min",
-    },
-  },
-  {
-    id: "sadness",
-    name: "Sadness",
-    icon: Heart,
-    color: "from-rose-400/20 to-red-400/20",
-    borderColor: "border-rose-400/30",
-    iconColor: "text-rose-400",
-    guidance: {
-      exercise: "Self-Compassion Meditation",
-      exerciseDesc: "Place your hand on your heart. Speak kindly to yourself as you would to a dear friend.",
-      quote: "The wound is the place where the Light enters you.",
-      author: "Rumi",
-      action: "Reach out to someone you trust. Connection heals what isolation cannot.",
-      duration: "5 min",
-    },
-  },
-  {
-    id: "anger",
-    name: "Anger",
-    icon: Flame,
-    color: "from-orange-400/20 to-amber-400/20",
-    borderColor: "border-orange-400/30",
-    iconColor: "text-orange-400",
-    guidance: {
-      exercise: "Cooling Breath (Sitali)",
-      exerciseDesc: "Curl your tongue and inhale through it. Exhale slowly through your nose. This cools and calms the body.",
-      quote: "Holding onto anger is like drinking poison and expecting the other person to die.",
-      author: "Buddha",
-      action: "Count to 10 slowly. Ask yourself: What need is beneath this anger?",
-      duration: "4 min",
-    },
-  },
-  {
-    id: "peaceful",
-    name: "Peaceful",
-    icon: Sparkles,
-    color: "from-emerald-400/20 to-teal-400/20",
-    borderColor: "border-emerald-400/30",
-    iconColor: "text-emerald-400",
-    guidance: {
-      exercise: "Gratitude Expansion",
-      exerciseDesc: "In this state of peace, amplify it by reflecting on three things you are grateful for.",
-      quote: "Peace comes from within. Do not seek it without.",
-      author: "Buddha",
-      action: "Share your peaceful energy with someone today through a kind word or gesture.",
-      duration: "3 min",
-    },
-  },
-]
+import { useLanguage } from "@/lib/language-context"
 
 export function EmotionCards() {
   const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null)
+  const { t } = useLanguage()
+
+  const emotions = [
+    {
+      id: "anxiety",
+      name: t.anxiety,
+      icon: Wind,
+      color: "from-blue-400/20 to-cyan-400/20",
+      borderColor: "border-blue-400/30",
+      iconColor: "text-blue-400",
+      guidance: {
+        exercise: t.anxietyExercise,
+        exerciseDesc: t.anxietyExerciseDesc,
+        quote: t.anxietyQuote,
+        author: "Charles Spurgeon",
+        action: t.anxietyAction,
+        duration: "3 min",
+      },
+    },
+    {
+      id: "overthinking",
+      name: t.overthinking,
+      icon: Brain,
+      color: "from-purple-400/20 to-pink-400/20",
+      borderColor: "border-purple-400/30",
+      iconColor: "text-purple-400",
+      guidance: {
+        exercise: t.overthinkingExercise,
+        exerciseDesc: t.overthinkingExerciseDesc,
+        quote: t.overthinkingQuote,
+        author: "Robin Sharma",
+        action: t.overthinkingAction,
+        duration: "5 min",
+      },
+    },
+    {
+      id: "stress",
+      name: t.stress,
+      icon: CloudRain,
+      color: "from-gray-400/20 to-slate-400/20",
+      borderColor: "border-gray-400/30",
+      iconColor: "text-gray-400",
+      guidance: {
+        exercise: t.stressExercise,
+        exerciseDesc: t.stressExerciseDesc,
+        quote: t.stressQuote,
+        author: "Hans Selye",
+        action: t.stressAction,
+        duration: "7 min",
+      },
+    },
+    {
+      id: "sadness",
+      name: t.sadness,
+      icon: Heart,
+      color: "from-rose-400/20 to-red-400/20",
+      borderColor: "border-rose-400/30",
+      iconColor: "text-rose-400",
+      guidance: {
+        exercise: t.sadnessExercise,
+        exerciseDesc: t.sadnessExerciseDesc,
+        quote: t.sadnessQuote,
+        author: "Rumi",
+        action: t.sadnessAction,
+        duration: "5 min",
+      },
+    },
+    {
+      id: "anger",
+      name: t.anger,
+      icon: Flame,
+      color: "from-orange-400/20 to-amber-400/20",
+      borderColor: "border-orange-400/30",
+      iconColor: "text-orange-400",
+      guidance: {
+        exercise: t.angerExercise,
+        exerciseDesc: t.angerExerciseDesc,
+        quote: t.angerQuote,
+        author: "Buddha",
+        action: t.angerAction,
+        duration: "4 min",
+      },
+    },
+    {
+      id: "peaceful",
+      name: t.peaceful,
+      icon: Sparkles,
+      color: "from-emerald-400/20 to-teal-400/20",
+      borderColor: "border-emerald-400/30",
+      iconColor: "text-emerald-400",
+      guidance: {
+        exercise: t.peacefulExercise,
+        exerciseDesc: t.peacefulExerciseDesc,
+        quote: t.peacefulQuote,
+        author: "Buddha",
+        action: t.peacefulAction,
+        duration: "3 min",
+      },
+    },
+  ]
 
   const selected = emotions.find((e) => e.id === selectedEmotion)
 
@@ -134,10 +136,10 @@ export function EmotionCards() {
           className="text-center mb-16"
         >
           <h2 className="font-serif text-4xl md:text-5xl text-foreground mb-4">
-            How Is Your Mind Today?
+            {t.howIsYourMind}
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Choose your current emotional state and receive guidance instantly.
+            {t.chooseEmotionalState}
           </p>
         </motion.div>
 
@@ -224,7 +226,7 @@ export function EmotionCards() {
                       className={`w-full rounded-xl py-6 ${selected.iconColor} bg-card hover:bg-card/80 text-foreground border border-border`}
                     >
                       <Play className="w-5 h-5 mr-2" />
-                      Play {selected.guidance.duration} Guided Meditation
+                      {t.playGuided} {selected.guidance.duration}
                     </Button>
                   </div>
 
@@ -252,7 +254,7 @@ export function EmotionCards() {
                       </div>
                       <div>
                         <h4 className="font-medium text-foreground mb-1">
-                          Recommended Action
+                          {t.recommendedAction}
                         </h4>
                         <p className="text-muted-foreground leading-relaxed">
                           {selected.guidance.action}
@@ -266,7 +268,7 @@ export function EmotionCards() {
                       className="w-full rounded-xl py-6 border-foreground/20 hover:bg-foreground/5"
                     >
                       <Timer className="w-5 h-5 mr-2" />
-                      Start {selected.guidance.duration} Timer
+                      {t.startTimer} {selected.guidance.duration}
                     </Button>
                   </div>
                 </div>

@@ -2,26 +2,29 @@
 
 import { motion } from "framer-motion"
 import { Instagram, Mail, Heart } from "lucide-react"
-
-const footerLinks = {
-  company: [
-    { name: "About", href: "#" },
-    { name: "Our Mission", href: "#mission" },
-    { name: "Careers", href: "#" },
-  ],
-  legal: [
-    { name: "Privacy Policy", href: "#" },
-    { name: "Terms of Service", href: "#" },
-    { name: "Cookie Policy", href: "#" },
-  ],
-  support: [
-    { name: "Help Center", href: "#" },
-    { name: "Contact Us", href: "#contact" },
-    { name: "FAQ", href: "#" },
-  ],
-}
+import { useLanguage } from "@/lib/language-context"
 
 export function Footer() {
+  const { t } = useLanguage()
+
+  const footerLinks = {
+    [t.company]: [
+      { name: t.about, href: "#" },
+      { name: t.ourMission, href: "#mission" },
+      { name: t.careers, href: "#" },
+    ],
+    [t.legal]: [
+      { name: t.privacyPolicy, href: "#" },
+      { name: t.termsOfService, href: "#" },
+      { name: t.cookiePolicy, href: "#" },
+    ],
+    [t.support]: [
+      { name: t.helpCenter, href: "#" },
+      { name: t.contactUs, href: "#contact" },
+      { name: t.faq, href: "#" },
+    ],
+  }
+
   return (
     <footer className="bg-foreground text-background py-16" id="contact">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -35,10 +38,10 @@ export function Footer() {
               transition={{ duration: 0.5 }}
             >
               <h3 className="font-serif text-2xl text-background mb-4">
-                CalmMind
+                Anicca Mind
               </h3>
               <p className="text-background/70 leading-relaxed max-w-sm mb-6">
-                Guiding you toward inner peace, one breath at a time. Join thousands who have discovered the transformative power of mindfulness.
+                {t.footerDesc}
               </p>
               {/* Social Links */}
               <div className="flex gap-4">
@@ -98,10 +101,10 @@ export function Footer() {
         >
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-background/50 text-sm">
-              © {new Date().getFullYear()} CalmMind. All rights reserved.
+              © {new Date().getFullYear()} Anicca Mind. {t.allRightsReserved}
             </p>
             <p className="text-background/50 text-sm flex items-center gap-1">
-              Made with <Heart className="w-4 h-4 text-primary fill-primary" /> for your peace of mind
+              {t.madeWith} <Heart className="w-4 h-4 text-primary fill-primary" /> {t.forYourPeace}
             </p>
           </div>
         </motion.div>
