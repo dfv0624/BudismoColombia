@@ -16,12 +16,12 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'Anicca Mind - Find Peace in the Edge of Silence',
+  title: 'Anicca Mind - Encuentra la paz en el límite del silencio',
   description: 'Discover tranquility through mindful meditation and embrace the stillness that exists between thoughts and breath.',
   keywords: ['meditation', 'mindfulness', 'mental health', 'wellness', 'calm', 'peace', 'breathing', 'anicca'],
   authors: [{ name: 'Anicca Mind' }],
   openGraph: {
-    title: 'Anicca Mind - Find Peace in the Edge of Silence',
+    title: 'Anicca Mind - Encuentra la paz en el límite del silencio',
     description: 'Discover tranquility through mindful meditation and embrace the stillness that exists between thoughts and breath.',
     type: 'website',
   },
