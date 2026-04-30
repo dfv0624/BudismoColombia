@@ -65,7 +65,7 @@ export function HeroSection() {
             <Button
               variant="outline"
               size="lg"
-              className="border-white/30 text-white hover:bg-white/10 hover:border-white/50 rounded-full px-8 py-6 text-base font-medium backdrop-blur-sm"
+              className="border-white/50 bg-white/10 text-white hover:bg-white/20 hover:border-white/60 rounded-full px-8 py-6 text-base font-medium backdrop-blur-sm"
             >
               {t.explorePractices}
             </Button>
