@@ -29,9 +29,33 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'BUDISMO COLOMBIA — Archivo Conceptual',
-  description: 'Repositorio conceptual de budismo: ejes, nodos y fichas de práctica.',
+  metadataBase: new URL('https://budismocolombia.com'),
+  title: {
+    default: 'Budismo Colombia — Repositorio Conceptual del Dharma',
+    template: '%s | Budismo Colombia',
+  },
+  description:
+    'Archivo interactivo y mapa conceptual de filosofía budista en Colombia. Explora Impermanencia (Anicca), Fricción (Dukkha), Mente (Sati) y Meditación (Vipassana) de forma práctica.',
+  keywords: ['budismo colombia', 'meditacion colombia', 'anicca', 'dukkha', 'vipassana', 'sati', 'filosofia budista', 'dharma'],
   authors: [{ name: 'Budismo Colombia' }],
+  alternates: {
+    canonical: '/',
+    languages: { 'es-CO': '/' },
+  },
+  openGraph: {
+    title: 'Budismo Colombia — Repositorio Conceptual del Dharma',
+    description:
+      'Archivo interactivo y mapa conceptual de filosofía budista en Colombia. Explora Impermanencia (Anicca), Fricción (Dukkha), Mente (Sati) y Meditación (Vipassana) de forma práctica.',
+    url: 'https://budismocolombia.com',
+    siteName: 'Budismo Colombia',
+    locale: 'es_CO',
+    type: 'website',
+  },
+  other: {
+    'geo.region': 'CO',
+    'geo.placename': 'Colombia',
+    'content-language': 'es-CO',
+  },
 }
 
 export const viewport: Viewport = {

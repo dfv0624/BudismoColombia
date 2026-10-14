@@ -14,6 +14,7 @@ const READ_KEY = "bc_read_nodes"
 const THEME_KEY = "bc_theme"
 const TRAIL_LIMIT = 8
 const SWITCH_DELAY = 170
+const DEFAULT_TITLE = "Budismo Colombia — Repositorio Conceptual del Dharma"
 
 // State lives in query params (?eje=&nodo=) rather than the hash: hashes like
 // "#eje/nodo" are not valid CSS selectors and break tooling that runs
@@ -239,6 +240,17 @@ export function ConceptExplorer() {
   useEffect(() => () => {
     if (switchTimer.current) clearTimeout(switchTimer.current)
   }, [])
+
+  const activeNode = activeNodeId ? findNodeById(activeNodeId)?.node : null
+  useEffect(() => {
+    if (view === "card" && activeNode) {
+      document.title = `${activeNode.name} — ${activeNode.translation} | Budismo Colombia`
+    } else if (view === "nodes" && activePillar) {
+      document.title = `${activePillar.title} (${activePillar.pali}) | Budismo Colombia`
+    } else {
+      document.title = DEFAULT_TITLE
+    }
+  }, [view, activePillar, activeNode])
 
   const stageClass = view === "nodes" ? "state-nodes" : view === "card" ? "state-card" : ""
 
