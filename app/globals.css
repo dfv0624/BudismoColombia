@@ -55,6 +55,20 @@ header {
   white-space: nowrap;
 }
 
+.brand-logo {
+  display: block;
+  flex-shrink: 0;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.brand:hover .brand-logo {
+  transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-logo { transition: none; }
+}
+
 .brand-title {
   font-family: var(--font-mono), monospace;
   font-size: 12px;
