@@ -6,9 +6,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  async rewrites() {
-    return [{ source: '/', destination: '/index.html' }]
-  },
   async headers() {
     return [
       {

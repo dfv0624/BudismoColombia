@@ -1,17 +1,27 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, Playfair_Display } from 'next/font/google'
+import { Inter, Instrument_Serif, JetBrains_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const inter = Inter({ 
-  subsets: ["latin"],
+const inter = Inter({
+  subsets: ['latin', 'latin-ext'],
+  weight: ['300', '400', '500'],
   variable: '--font-inter',
   display: 'swap',
 })
 
-const playfair = Playfair_Display({ 
-  subsets: ["latin"],
-  variable: '--font-playfair',
+const instrumentSerif = Instrument_Serif({
+  subsets: ['latin', 'latin-ext'],
+  weight: '400',
+  style: ['normal', 'italic'],
+  variable: '--font-serif',
+  display: 'swap',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin', 'latin-ext'],
+  weight: ['300', '400'],
+  variable: '--font-mono',
   display: 'swap',
 })
 
@@ -22,10 +32,15 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#F7F6F2',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#F7F6F2' },
+    { media: '(prefers-color-scheme: dark)', color: '#0E0E0E' },
+  ],
   width: 'device-width',
   initialScale: 1,
 }
+
+const themeScript = `try{document.documentElement.setAttribute("data-theme",localStorage.getItem("bc_theme")||"light")}catch(e){}`
 
 export default function RootLayout({
   children,
@@ -33,8 +48,16 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable} bg-background`}>
-      <body className="font-sans antialiased">
+    <html
+      lang="es"
+      data-theme="light"
+      suppressHydrationWarning
+      className={`${inter.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable}`}
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
