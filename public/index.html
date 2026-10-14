@@ -1,0 +1,1889 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BUDISMO COLOMBIA — Archivo Conceptual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F7F6F2;
+      --fg: #121212;
+      --muted: #787670;
+      --line: #DFDDD6;
+      --hover-bg: #EFECE6;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg: #0E0E0E;
+      --fg: #EDEDEB;
+      --muted: #757570;
+      --line: #242422;
+      --hover-bg: #171716;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      background-color: var(--bg);
+      color: var(--fg);
+      font-family: 'Inter', -apple-system, sans-serif;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.5s var(--ease), color 0.5s var(--ease);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* TOP BAR */
+    header {
+      height: 60px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      flex-shrink: 0;
+      z-index: 40;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .brand-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+
+    .brand-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* SEARCH COMMAND BAR */
+    .search-box {
+      position: relative;
+      width: 280px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--fg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 6px 28px 6px 12px;
+      outline: none;
+      transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease);
+    }
+
+    .search-input::placeholder {
+      color: var(--muted);
+    }
+
+    .search-input:focus {
+      border-color: var(--fg);
+      background-color: var(--hover-bg);
+    }
+
+    .search-kbd {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      padding: 0 4px;
+      pointer-events: none;
+    }
+
+    .search-results {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      width: 360px;
+      background-color: var(--bg);
+      border: 1px solid var(--fg);
+      display: none;
+      flex-direction: column;
+      max-height: 360px;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .search-results.open {
+      display: flex;
+    }
+
+    .search-result-item {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      transition: background-color 0.2s var(--ease);
+    }
+
+    .search-result-item:last-child {
+      border-bottom: none;
+    }
+
+    .search-result-item:hover,
+    .search-result-item.selected {
+      background-color: var(--hover-bg);
+    }
+
+    .sr-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 20px;
+      color: var(--fg);
+    }
+
+    .sr-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* NAV CONTROLS & CLICKABLE BREADCRUMB */
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      white-space: nowrap;
+    }
+
+    .step-indicator {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .step-link {
+      cursor: pointer;
+      transition: color 0.25s var(--ease);
+      padding: 2px 4px;
+    }
+
+    .step-link:hover {
+      color: var(--fg);
+    }
+
+    .step-link.active {
+      color: var(--fg);
+      border-bottom: 1px solid var(--fg);
+    }
+
+    .step-link.disabled {
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .progress-counter {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      border-left: 1px solid var(--line);
+      padding-left: 16px;
+    }
+
+    .btn-minimal {
+      background: none;
+      border: 1px solid var(--line);
+      color: var(--fg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease);
+    }
+
+    .btn-minimal:hover {
+      background-color: var(--hover-bg);
+      border-color: var(--fg);
+    }
+
+    /* MAIN STAGE - ACCORDION ARCHITECTURE (FULL HEIGHT/WIDTH FIX) */
+    main {
+      flex: 1;
+      display: flex;
+      width: 100vw;
+      height: calc(100vh - 60px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* LAYER 1: PILARES (AXES) */
+    .pillars-container {
+      display: flex;
+      flex-direction: row;
+      height: 100%;
+      width: 100vw;
+      transition: width 0.7s var(--ease);
+      flex-shrink: 0;
+    }
+
+    main.state-nodes .pillars-container {
+      width: 250px;
+    }
+
+    main.state-card .pillars-container {
+      width: 68px;
+      flex-direction: column;
+      border-right: 1px solid var(--line);
+    }
+
+    .pillar {
+      flex: 1;
+      height: 100%;
+      border-right: 1px solid var(--line);
+      padding: 44px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: flex 0.7s var(--ease), background-color 0.4s var(--ease), padding 0.6s var(--ease);
+    }
+
+    .pillar:last-child {
+      border-right: none;
+    }
+
+    .pillar:hover {
+      background-color: var(--hover-bg);
+    }
+
+    /* En state-nodes: ocultar ejes no activos sin dejar espacios vacíos */
+    main.state-nodes .pillar:not(.active) {
+      flex: 0 0 0px;
+      width: 0;
+      padding: 0;
+      border: none;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    main.state-nodes .pillar.active {
+      flex: 1;
+      height: 100%;
+      background-color: var(--bg);
+      border-right: 1px solid var(--line);
+      padding: 44px 28px;
+    }
+
+    /* En state-card: los 4 ejes ocupan 25% de altura cada uno formando una barra lateral */
+    main.state-card .pillar {
+      flex: 1;
+      height: auto;
+      padding: 16px 0;
+      align-items: center;
+      justify-content: center;
+      border-right: none;
+      border-bottom: 1px solid var(--line);
+      opacity: 0.55;
+    }
+
+    main.state-card .pillar:last-child {
+      border-bottom: none;
+    }
+
+    main.state-card .pillar:hover {
+      opacity: 1;
+      background-color: var(--hover-bg);
+    }
+
+    main.state-card .pillar.active {
+      opacity: 1;
+      background-color: var(--hover-bg);
+      border-left: 3px solid var(--fg);
+    }
+
+    .pillar-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    main.state-card .pillar-num {
+      display: none;
+    }
+
+    .pillar-center {
+      margin: auto 0;
+      transition: transform 0.6s var(--ease), opacity 0.4s var(--ease);
+    }
+
+    .pillar-pali {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .pillar-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(38px, 3.8vw, 58px);
+      font-weight: 400;
+      line-height: 1.04;
+      margin-bottom: 18px;
+      transition: font-size 0.6s var(--ease);
+    }
+
+    main.state-nodes .pillar.active .pillar-title {
+      font-size: 34px;
+    }
+
+    .pillar-desc {
+      font-size: 14.5px;
+      color: var(--muted);
+      line-height: 1.55;
+      max-width: 30ch;
+      transition: opacity 0.3s var(--ease);
+    }
+
+    .pillar-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+    }
+
+    .pillar:hover .pillar-arrow {
+      transform: translateX(6px);
+    }
+
+    .pillar-arrow {
+      transition: transform 0.4s var(--ease);
+    }
+
+    .pillar-vertical-label {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--fg);
+      display: none;
+      white-space: nowrap;
+    }
+
+    main.state-card .pillar .pillar-center,
+    main.state-card .pillar .pillar-footer {
+      display: none;
+    }
+
+    main.state-card .pillar .pillar-vertical-label {
+      display: block;
+    }
+
+    /* LAYER 2: NODOS (CONCEPT SELECTOR - FULL HEIGHT GRID FIX) */
+    .nodes-stage {
+      width: 0;
+      height: 100%;
+      opacity: 0;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--line);
+      transition: width 0.7s var(--ease), opacity 0.5s var(--ease);
+      flex-shrink: 0;
+    }
+
+    main.state-nodes .nodes-stage {
+      width: calc(100vw - 250px);
+      opacity: 1;
+    }
+
+    main.state-card .nodes-stage {
+      width: 310px;
+      opacity: 1;
+    }
+
+    .stage-header {
+      height: 54px;
+      padding: 0 32px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .stage-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    /* FIX: Las filas ocupan exactamente el 50% de la altura para llenar toda la pantalla en 2 filas */
+    .nodes-grid {
+      flex: 1;
+      height: calc(100% - 54px);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: minmax(50%, 1fr);
+      overflow-y: auto;
+    }
+
+    main.state-card .nodes-grid {
+      grid-template-columns: 1fr;
+      grid-auto-rows: minmax(20%, auto);
+    }
+
+    .node-item {
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 34px 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: background-color 0.35s var(--ease), padding 0.5s var(--ease);
+      opacity: 0;
+      transform: translateY(14px);
+      position: relative;
+      height: 100%;
+    }
+
+    .node-item.reveal {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.45s var(--ease), transform 0.55s var(--ease), background-color 0.3s var(--ease);
+    }
+
+    .node-item:hover {
+      background-color: var(--hover-bg);
+    }
+
+    .node-item.active {
+      background-color: var(--hover-bg);
+      border-left: 3px solid var(--fg);
+    }
+
+    main.state-card .node-item {
+      padding: 20px 24px;
+      border-right: none;
+      height: auto;
+    }
+
+    .node-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    main.state-card .node-top {
+      margin-bottom: 6px;
+    }
+
+    .node-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .read-dot {
+      font-size: 9px;
+      color: var(--muted);
+    }
+
+    .read-dot.is-read {
+      color: var(--fg);
+    }
+
+    .node-type {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .node-name {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(30px, 2.5vw, 38px);
+      font-weight: 400;
+      line-height: 1.08;
+      margin-bottom: 6px;
+      transition: transform 0.3s var(--ease);
+    }
+
+    .node-item:hover .node-name {
+      transform: translateX(4px);
+    }
+
+    main.state-card .node-name {
+      font-size: 23px;
+      margin-bottom: 2px;
+    }
+
+    .node-translation {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    main.state-card .node-translation {
+      margin-bottom: 0;
+      font-size: 11px;
+    }
+
+    .node-summary {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--fg);
+      opacity: 0.85;
+    }
+
+    main.state-card .node-summary,
+    main.state-card .node-bottom {
+      display: none;
+    }
+
+    .node-bottom {
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* LAYER 3: FICHA ATÓMICA (FULL HEIGHT FIX) */
+    .card-stage {
+      flex: 1;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      transform: translateX(24px);
+      transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+    }
+
+    main.state-card .card-stage {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+    }
+
+    .card-inner {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 100%;
+      justify-content: space-between;
+      transition: opacity 0.22s var(--ease), transform 0.22s var(--ease);
+    }
+
+    .card-inner.switching {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    .atomic-header {
+      padding: 34px 48px 28px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+      flex-shrink: 0;
+    }
+
+    .atomic-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .atomic-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(36px, 4.2vw, 60px);
+      font-weight: 400;
+      line-height: 0.98;
+    }
+
+    .atomic-pali-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      border: 1px solid var(--line);
+      padding: 8px 14px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .atomic-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1.12fr 1fr;
+      grid-template-rows: 1fr auto;
+    }
+
+    .atomic-cell {
+      padding: 36px 48px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .atomic-cell:first-child {
+      border-right: 1px solid var(--line);
+    }
+
+    .cell-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cell-tag::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background-color: var(--fg);
+    }
+
+    .essence-quote {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(23px, 2.2vw, 31px);
+      line-height: 1.28;
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+
+    .essence-body {
+      font-size: 15px;
+      line-height: 1.68;
+      color: var(--muted);
+      max-width: 54ch;
+    }
+
+    .practice-steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: auto 0;
+    }
+
+    .practice-step {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      align-items: baseline;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .practice-step:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .step-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .step-text {
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .step-text strong {
+      font-weight: 500;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .practice-timer-box {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .timer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+
+    .timer-display {
+      font-size: 13px;
+      color: var(--fg);
+      letter-spacing: 0.08em;
+    }
+
+    .timer-bar-track {
+      width: 100%;
+      height: 1px;
+      background-color: var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timer-bar-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 1px;
+      width: 0%;
+      background-color: var(--fg);
+      transition: width 0.25s linear;
+    }
+
+    .atomic-connections {
+      grid-column: 1 / -1;
+      padding: 20px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .connections-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .conn-list {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .conn-chip {
+      background: none;
+      border: 1px solid var(--line);
+      color: var(--fg);
+      padding: 7px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.3s var(--ease), background-color 0.3s var(--ease), border-color 0.3s var(--ease);
+    }
+
+    .conn-chip:hover {
+      background-color: var(--hover-bg);
+      border-color: var(--fg);
+      transform: translateY(-2px);
+    }
+
+    .conn-chip span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .session-trail {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+      overflow-x: auto;
+    }
+
+    .trail-node {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      cursor: pointer;
+      padding: 2px 4px;
+      transition: color 0.2s var(--ease);
+    }
+
+    .trail-node:hover {
+      color: var(--fg);
+    }
+
+    .trail-node.current {
+      color: var(--fg);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    @media (max-width: 1024px) {
+      .search-box { width: 170px; }
+      .progress-counter { display: none; }
+      main.state-nodes .pillars-container { width: 68px; }
+      main.state-nodes .nodes-stage { width: calc(100vw - 68px); }
+      .nodes-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+      main.state-card .nodes-stage { display: none; }
+      .atomic-grid { grid-template-columns: 1fr; }
+      .atomic-cell:first-child { border-right: none; }
+      .atomic-header, .atomic-cell, .atomic-connections { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand" onclick="resetToHome()">
+      <span class="brand-title">Budismo Colombia</span>
+      <span class="brand-sub">/ Repositorio Conceptual</span>
+    </div>
+
+    <div class="search-box" id="searchBox">
+      <input
+        type="text"
+        id="searchInput"
+        class="search-input"
+        placeholder="Buscar entre 20 conceptos..."
+        autocomplete="off"
+      />
+      <span class="search-kbd">/</span>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <div class="nav-controls">
+      <div class="step-indicator" id="breadcrumb">
+        <span class="step-link active" onclick="resetToHome()">01. Ejes</span>
+        <span>→</span>
+        <span class="step-link disabled" id="bcNodes" onclick="goToNodesStep()">02. Nodos</span>
+        <span>→</span>
+        <span class="step-link disabled" id="bcCard">03. Ficha</span>
+      </div>
+
+      <span class="progress-counter" id="progressCounter" title="Conceptos estudiados guardados en tu navegador">0/20 Leídos</span>
+
+      <button class="btn-minimal" id="backBtn" style="display: none;" onclick="stepBack()">← Volver</button>
+      <button class="btn-minimal" onclick="toggleTheme()" id="themeBtn">Modo: Claro</button>
+    </div>
+  </header>
+
+  <main id="stage">
+    <!-- CAPA 1: 4 EJES FUNDACIONALES -->
+    <section class="pillars-container" id="pillarsContainer"></section>
+
+    <!-- CAPA 2: SELECTOR DE NODOS DEL EJE -->
+    <section class="nodes-stage" id="nodesStage">
+      <div class="stage-header">
+        <span class="stage-label" id="nodesHeaderLabel">Nodos del Eje</span>
+        <span class="stage-label">Flechas [↑/↓] o clic para abrir ficha</span>
+      </div>
+      <div class="nodes-grid" id="nodesGrid"></div>
+    </section>
+
+    <!-- CAPA 3: FICHA ATÓMICA DE CONOCIMIENTO -->
+    <section class="card-stage" id="cardStage"></section>
+  </main>
+
+  <script>
+    const REPOSITORY = [
+      {
+        id: "impermanencia",
+        num: "01",
+        pali: "Tilakkhana",
+        title: "Realidad y Cambio",
+        desc: "Las leyes de la existencia condicionada, la impermanencia y la naturaleza relacional de todo fenómeno.",
+        nodes: [
+          {
+            id: "anicca",
+            code: "01.1",
+            type: "Marca de Existencia",
+            name: "Anicca",
+            pali: "अनिच्च · Impermanencia",
+            translation: "Inconstancia / Flujo continuo",
+            summary: "Nada permanece estático; todo fenómeno condicionado surge, se transforma mientras existe y cesa.",
+            quote: "«Todo lo que tiene la naturaleza de surgir, tiene la naturaleza de cesar.»",
+            essence: "En la filosofía budista temprana, Anicca no es una doctrina pesimista, sino una ley observable. El sufrimiento ocurre cuando la mente intenta congelar personas, estados de ánimo o situaciones que por definición están en movimiento continuo.",
+            steps: [
+              { title: "Observación en el cuerpo", desc: "Nota cómo una sensación física (frío, tensión, pulso) cambia de intensidad cada pocos segundos." },
+              { title: "Curva emocional", desc: "Ante una emoción intensa (ira o euforia), observa su pico y su desgaste natural sin alimentarla." },
+              { title: "Desapego operativo", desc: "Planifica tus proyectos asumiendo que las condiciones cambiarán, reduciendo la fricción ante lo imprevisto." }
+            ],
+            source: "Anicca Sutta (SN 22.12)",
+            connections: ["dukkha", "anatta", "vipassana", "sankhara"]
+          },
+          {
+            id: "anatta",
+            code: "01.2",
+            type: "Marca de Existencia",
+            name: "Anattā",
+            pali: "अनत्ता · No-Yo",
+            translation: "Ausencia de un núcleo fijo",
+            summary: "La identidad no es una entidad sólida, sino un proceso cambiante de percepciones, cuerpo y memoria.",
+            quote: "«Los fenómenos son procesos en curso sin un dueño rígido detrás de ellos.»",
+            essence: "Anattā desmonta la ilusión del ego como un centro inmutable. Lo que llamamos 'yo' es una corriente de cinco agregados (cuerpo, sensación, percepción, formaciones mentales y consciencia) renovándose en cada instante.",
+            steps: [
+              { title: "Despersonalizar el lenguaje", desc: "Sustituye mentalmente 'estoy furioso' por 'hay furia presente en este momento'." },
+              { title: "Rastrear al observador", desc: "En silencio, busca dónde se ubica exactamente ese 'yo' que cree ser dueño de los pensamientos." },
+              { title: "Soltar la defensa identitaria", desc: "Identifica cuándo discutes solo por proteger tu autoimagen y no por esclarecer la verdad." }
+            ],
+            source: "Anattalakkhana Sutta (SN 22.59)",
+            connections: ["anicca", "sunyata", "sati", "upadana"]
+          },
+          {
+            id: "pratitya",
+            code: "01.3",
+            type: "Ley Causal",
+            name: "Paṭiccasamuppāda",
+            pali: "पटिच्चसमुप्पाद · Interdependencia",
+            translation: "Origen co-dependiente",
+            summary: "Ningún evento existe por sí solo; todo emerge como resultado de una red de condiciones previas.",
+            quote: "«Cuando esto existe, aquello llega a ser; al cesar esto, aquello cesa.»",
+            essence: "En lugar de ver el mundo como objetos aislados, el origen interdependiente muestra una red de causas y condiciones. Comprender qué condición alimenta un hábito reactivo permite desactivarlo desde la raíz.",
+            steps: [
+              { title: "Identificar el disparador", desc: "Reconoce el contacto sensorial exacto (una notificación, un tono de voz) antes de que nazca la reacción." },
+              { title: "Cortar el eslabón", desc: "Entre la sensación agradable/desagradable y el impulso ciego, introduce una exhalación consciente." },
+              { title: "Visión sistémica", desc: "Analiza cualquier dificultad como una suma de condiciones modificables y no como una culpa estática." }
+            ],
+            source: "Maha-nidana Sutta (DN 15)",
+            connections: ["anicca", "sunyata", "tanha", "avijja"]
+          },
+          {
+            id: "sunyata",
+            code: "01.4",
+            type: "Filosofía Mahāyāna",
+            name: "Śūnyatā",
+            pali: "शून्यता · Vacuidad",
+            translation: "Apertura relacional",
+            summary: "Las cosas están vacías de existencia aislada e independiente; justamente por eso pueden transformarse.",
+            quote: "«La forma no difiere del vacío; el vacío no difiere de la forma.»",
+            essence: "Sistematizada por Nāgārjuna, la vacuidad no es nihilismo ni significa que 'nada exista'. Significa que nada posee una esencia cerrada: todo depende de su contexto, relaciones y causas, abriendo total libertad de cambio.",
+            steps: [
+              { title: "Desarmar etiquetas fijas", desc: "Cuestiona cuando sentencias que una situación o persona 'siempre es así'." },
+              { title: "Percibir el espacio", desc: "Nota el silencio de fondo que permite que los sonidos de tu habitación puedan escucharse." },
+              { title: "Flexibilidad cognitiva", desc: "Suelta un punto de vista rígido en cuanto aparezca nueva evidencia en el presente." }
+            ],
+            source: "Prajñāpāramitā Hṛdaya — Sutra del Corazón",
+            connections: ["anatta", "pratitya", "panna", "upekkha"]
+          },
+          {
+            id: "sankhara",
+            code: "01.5",
+            type: "Agregado Mental",
+            name: "Saṅkhāra",
+            pali: "सङ्खार · Formaciones",
+            translation: "Construcciones mentales y hábitos",
+            summary: "Tanto las huellas de carácter que moldean nuestras reacciones como todo compuesto condicionado.",
+            quote: "«Transitorias son todas las formaciones condicionadas; trabajen con diligencia.»",
+            essence: "Cada vez que reaccionamos con aversión o apego, grabamos un surco mental (Saṅkhāra) que hace más probable repetir esa reacción mañana. La práctica meditativa consiste en observar estos impulsos sin reforzarlos hasta que pierden inercia.",
+            steps: [
+              { title: "Mapear el piloto automático", desc: "Detecta tus tres reacciones automáticas más frecuentes ante la presión o el estrés." },
+              { title: "No alimentar el surco", desc: "Cuando surja un viejo hábito mental, obsérvalo en el cuerpo sin actuar sobre él durante 30 segundos." },
+              { title: "Sembrar nuevas disposiciones", desc: "Elige deliberadamente una respuesta serena para debilitar el reflejo condicionado anterior." }
+            ],
+            source: "Mahāparinibbāna Sutta (DN 16)",
+            connections: ["anicca", "pratitya", "vipassana", "upadana"]
+          }
+        ]
+      },
+      {
+        id: "sufrimiento",
+        num: "02",
+        pali: "Sacca",
+        title: "Fricción y Deseo",
+        desc: "Diagnóstico de la insatisfacción humana, el mecanismo del apego y la posibilidad real de soltar.",
+        nodes: [
+          {
+            id: "dukkha",
+            code: "02.1",
+            type: "Primera Verdad",
+            name: "Dukkha",
+            pali: "दुक्ख · Insatisfacción",
+            translation: "Fricción / Rueda descentrada",
+            summary: "La brecha constante entre cómo exigimos que sea la realidad y cómo está ocurriendo en este instante.",
+            quote: "«El dolor en el cuerpo es inevitable; el sufrimiento mental es la segunda flecha opcional.»",
+            essence: "Etimológicamente, Dukkha describe el eje de una rueda mal encajada que chirría al avanzar. No significa que la vida sea triste, sino que exigir permanencia a cosas transitorias produce fricción psicológica constante.",
+            steps: [
+              { title: "Separar las dos flechas", desc: "Distingue entre el inconveniente objetivo (flecha 1) y la queja rumiativa que agregas después (flecha 2)." },
+              { title: "Localizar la resistencia", desc: "Observa qué músculo (mandíbula, hombros, abdomen) se contrae cuando algo contradice tu plan." },
+              { title: "Aceptación táctica", desc: "Reconoce el hecho consumado sin pelear con el pasado antes de decidir el siguiente paso." }
+            ],
+            source: "Sallatha Sutta — Las Dos Flechas (SN 36.6)",
+            connections: ["tanha", "anicca", "nirodha", "upekkha"]
+          },
+          {
+            id: "tanha",
+            code: "02.2",
+            type: "Segunda Verdad",
+            name: "Taṇhā",
+            pali: "तण्हा · Sed Mental",
+            translation: "Anhelo compulsivo / Aversión",
+            summary: "El impulso involuntario de capturar lo placentero, convertirse en alguien o aniquilar lo incómodo.",
+            quote: "«La sed mental se multiplica cada vez que intentamos saciarla por impulso.»",
+            essence: "Taṇhā significa literalmente 'sed febril'. Opera en tres frentes: sed de estímulos sensoriales (Kāma), sed de estatus e identidad (Bhava) y sed de rechazar o destruir lo que nos disgusta (Vibhava).",
+            steps: [
+              { title: "Pausa de 10 segundos", desc: "Cuando sientas urgencia por abrir una red social o comprar algo, observa el tirón físico en el pecho." },
+              { title: "Ver la promesa corta", desc: "Recuerda cómo el último deseo saciado solo trajo calma durante unos minutos antes de pedir más." },
+              { title: "Habitar la neutralidad", desc: "Permanece 3 minutos sin estímulos externos observando la inquietud de la mente sin obedecerla." }
+            ],
+            source: "Dhammacakkappavattana Sutta (SN 56.11)",
+            connections: ["dukkha", "upadana", "nirodha", "sati"]
+          },
+          {
+            id: "upadana",
+            code: "02.3",
+            type: "Eslabón Causal",
+            name: "Upādāna",
+            pali: "उपादान · Aferramiento",
+            translation: "Combustible / Identificación rígida",
+            summary: "Cuando el deseo puntual se solidifica en apego a placeres, dogmas, rituales o a la propia imagen.",
+            quote: "«Así como el fuego arde mientras tiene combustible, la mente se agita mientras se aferra.»",
+            essence: "En Pali, Upādāna significa a la vez 'aferrarse' y 'combustible'. El budismo señala que el aferramiento más sutil y conflictivo no es hacia los objetos materiales, sino hacia nuestras opiniones e ideas fijas (Diṭṭhupādāna).",
+            steps: [
+              { title: "Aflojar la opinión", desc: "En una conversación tensa, expón tu argumento sin atar tu dignidad personal a tener la razón." },
+              { title: "Detectar el combustible", desc: "Pregúntate qué pensamiento repetitivo está manteniendo vivo un enojo de hace horas." },
+              { title: "Usar sin poseer", desc: "Disfruta de tus herramientas, proyectos y logros recordando que eres su administrador temporal." }
+            ],
+            source: "Upādāna Sutta (SN 12.52)",
+            connections: ["tanha", "anatta", "sankhara", "nirodha"]
+          },
+          {
+            id: "avijja",
+            code: "02.4",
+            type: "Raíz Latente",
+            name: "Avijjā",
+            pali: "अविज्जा · Ignorancia",
+            translation: "Ceguera perceptiva / Desconocimiento",
+            summary: "No es falta de erudición académica, sino confundir lo transitorio con lo eterno y lo doloroso con felicidad.",
+            quote: "«No ver las cosas tal como son es la raíz de toda confusión mental.»",
+            essence: "Avijjā funciona como un lente distorsionado que nos hace percibir estabilidad donde hay flujo (Anicca) y un ego aislado donde hay interdependencia. La claridad perceptiva (Vijjā / Paññā) disuelve esa niebla mediante observación directa.",
+            steps: [
+              { title: "Cuestionar la primera impresión", desc: "No des por sentado que tu interpretación automática de un gesto ajeno es la realidad." },
+              { title: "Verificar las 4 distorsiones", desc: "Pregúntate si estás exigiendo permanencia a algo que por naturaleza es cambiante." },
+              { title: "Priorizar experiencia sobre teoría", desc: "Comprueba cada concepto filosófico en tu propia respiración y mente hoy mismo." }
+            ],
+            source: "Avijjā Sutta (SN 45.1)",
+            connections: ["pratitya", "panna", "vipassana", "dukkha"]
+          },
+          {
+            id: "nirodha",
+            code: "02.5",
+            type: "Tercera Verdad",
+            name: "Nirodha",
+            pali: "निरोध · Cesación",
+            translation: "Extinción de la fricción / Soltar",
+            summary: "El alivio inmediato y verificable que experimenta la mente cuando deja de alimentar la resistencia.",
+            quote: "«Al soltar la sed y el aferramiento, cesa la agitación y emerge la paz imperturbable.»",
+            essence: "La tercera noble verdad no es una promesa mística para otra vida, sino un diagnóstico práctico: si el sufrimiento tiene una causa concreta (el aferramiento), al soltar esa causa el sufrimiento se apaga en este mismo instante.",
+            steps: [
+              { title: "Notar el instante de alivio", desc: "Registra la sensación física de descanso justo cuando decides soltar una discusión inútil." },
+              { title: "Exhalación de descarga", desc: "Usa una exhalación larga para soltar deliberadamente la tensión acumulada en hombros y pecho." },
+              { title: "Restar antes que sumar", desc: "Cuando te sientas saturado, busca qué exigencia innecesaria puedes soltar hoy en vez de añadir más tareas." }
+            ],
+            source: "Dhammacakkappavattana Sutta (SN 56.11)",
+            connections: ["dukkha", "tanha", "upadana", "upekkha"]
+          }
+        ]
+      },
+      {
+        id: "mente",
+        num: "03",
+        pali: "Citta",
+        title: "Arquitectura Mental",
+        desc: "Cartografía de las facultades cognitivas: atención, estabilidad, discernimiento y ecuanimidad.",
+        nodes: [
+          {
+            id: "sati",
+            code: "03.1",
+            type: "Facultad Ejecutiva",
+            name: "Sati",
+            pali: "सति · Atención Plena",
+            translation: "Recordar estar presente",
+            summary: "Capacidad de observar lo que ocurre en el cuerpo y la mente en tiempo real sin juzgarlo ni editarlo.",
+            quote: "«En lo visto, solo hay lo visto; en lo oído, solo lo oído; en lo pensado, solo lo pensado.»",
+            essence: "Sati es presencia desnuda y lúcida. Antes de que la narrativa mental construya toda una novela sobre un estímulo, Sati registra el dato puro manteniendo claridad y memoria del presente.",
+            steps: [
+              { title: "Anclaje somático", desc: "Mantén el 20% de tu atención en el contacto de los pies o las manos mientras trabajas." },
+              { title: "Notar sin comentar", desc: "Percibe un sonido o interrupción y evita ponerle adjetivos inmediatos de 'molesto' o 'bueno'." },
+              { title: "Micro-retornos amables", desc: "Cada vez que notes distracción, regresa al presente sin reprocharte haberte distraído." }
+            ],
+            source: "Satipaṭṭhāna Sutta (MN 10)",
+            connections: ["anapanasati", "vipassana", "sampajanna", "upekkha"]
+          },
+          {
+            id: "upekkha",
+            code: "03.2",
+            type: "Estado Sublime",
+            name: "Upekkhā",
+            pali: "उपेक्खा · Ecuanimidad",
+            translation: "Mirar con equilibrio espacioso",
+            summary: "Estabilidad mental que comprende el cambio y no es arrastrada ni por el elogio ni por la pérdida.",
+            quote: "«Como una roca sólida no tiembla con el viento, el sabio no vacila ante el halago o la crítica.»",
+            essence: "La ecuanimidad no es frialdad ni apatía; es amplitud. Es la capacidad de estar plenamente comprometido con una acción sin que tu paz interior dependa de las variables que no controlas.",
+            steps: [
+              { title: "Los 8 vientos mundanos", desc: "Observa con igual sobriedad ganancia y pérdida, elogio y crítica, éxito y fracaso." },
+              { title: "Enfriamiento previo", desc: "Ante un mensaje provocador, espera a que baje la carga fisiológica antes de redactar respuesta." },
+              { title: "Excelencia sin ansiedad", desc: "Cuida al máximo la ejecución técnica de tu trabajo hoy y suelta la obsesión por el resultado futuro." }
+            ],
+            source: "Lokavipatti Sutta (AN 8.6)",
+            connections: ["sati", "dukkha", "nirodha", "karuna"]
+          },
+          {
+            id: "samadhi",
+            code: "03.3",
+            type: "Entrenamiento Mental",
+            name: "Samādhi",
+            pali: "समाधि · Unificación",
+            translation: "Recogimiento y foco estable",
+            summary: "Reunir la energía mental dispersa en un único punto tranquilo, libre de fragmentación y multitarea.",
+            quote: "«La mente unificada y libre de distracción ve la realidad tal como es.»",
+            essence: "Una mente fragmentada en diez estímulos simultáneos carece de fuerza para comprenderse a sí misma. Samādhi recoge esa atención dispersa como una lupa que concentra la luz solar en un solo punto.",
+            steps: [
+              { title: "Monotarea estricta", desc: "Dedica bloques cerrados de 25 minutos a una sola actividad con notificaciones silenciadas." },
+              { title: "Notar la dispersión", desc: "Detecta el síntoma físico de fatiga cuando saltas de una pestaña o idea a otra sin pausa." },
+              { title: "Unificar cuerpo y mente", desc: "Alinea tu postura física antes de iniciar una sesión de estudio o programación compleja." }
+            ],
+            source: "Samādhi Sutta (SN 22.5)",
+            connections: ["anapanasati", "samatha", "panna", "sati"]
+          },
+          {
+            id: "panna",
+            code: "03.4",
+            type: "Facultad Superior",
+            name: "Paññā",
+            pali: "पञ्ञा · Sabiduría",
+            translation: "Discernimiento penetrante",
+            summary: "Comprensión experiencial directa que distingue qué acciones generan claridad y cuáles generan sufrimiento.",
+            quote: "«La atención estabiliza la mente; el discernimiento corta de raíz la confusión.»",
+            essence: "En el budismo hay tres niveles de sabiduría: la escuchada o leída (Suta), la reflexionada intelectualmente (Cintā) y la verificada por observación directa en el propio cuerpo y mente (Bhāvanā-mayā Paññā).",
+            steps: [
+              { title: "Filtro de utilidad ética", desc: "Antes de actuar, pregúntate: ¿esto conduce a mayor agitación o a mayor claridad y calma?" },
+              { title: "Pasar del concepto al hecho", desc: "No te quedes solo con la definición de impermanencia; obsérvala operando en tu día." },
+              { title: "Cuestionar supuestos", desc: "Revisa una creencia personal antigua bajo la luz de tu experiencia directa actual." }
+            ],
+            source: "Mahāvedalla Sutta (MN 43)",
+            connections: ["vipassana", "avijja", "sunyata", "samadhi"]
+          },
+          {
+            id: "karuna",
+            code: "03.5",
+            type: "Brahmavihāra",
+            name: "Karuṇā & Mettā",
+            pali: "करुणा · Benevolencia",
+            translation: "Compasión lúcida y buena voluntad",
+            summary: "Disposición mental libre de hostilidad que reconoce que todos los seres buscan evitar el sufrimiento.",
+            quote: "«Del mismo modo que una madre protege su vida, cultiva una mente sin límites hacia todos.»",
+            essence: "Mettā (buena voluntad) y Karuṇā (compasión) no son sentimentalismos débiles, sino antídotos cognitivos contra el resentimiento y la irritabilidad. Una mente libre de hostilidad piensa con mayor precisión y descansa mejor.",
+            steps: [
+              { title: "Reconocer la fricción ajena", desc: "Ante alguien difícil, recuerda que su torpeza proviene de su propia confusión e insatisfacción." },
+              { title: "Soltar el rencor por higiene mental", desc: "Reconoce que sostener ira es como agarrar un carbón encendido esperando quemar al otro." },
+              { title: "Intención silenciosa", desc: "Al iniciar el día, desea sobria y sinceramente claridad y calma para ti y quienes te rodean." }
+            ],
+            source: "Karaṇīya Mettā Sutta (Snp 1.8)",
+            connections: ["upekkha", "samma_vaca", "dukkha", "sati"]
+          }
+        ]
+      },
+      {
+        id: "practica",
+        num: "04",
+        pali: "Bhāvanā",
+        title: "Cultivo y Método",
+        desc: "Protocolos técnicos de meditación, calma mental y atención aplicada a la vida cotidiana.",
+        nodes: [
+          {
+            id: "anapanasati",
+            code: "04.1",
+            type: "Técnica Base",
+            name: "Ānāpānasati",
+            pali: "आनापानसति · Respiración",
+            translation: "Atención al flujo del aire",
+            summary: "Uso de la respiración natural como ancla somática para calmar el ruido mental y estabilizar el enfoque.",
+            quote: "«Inhalando largo, comprende: 'Inhalo largo'. Exhalando corto, comprende: 'Exhalo corto'.»",
+            essence: "No es un ejercicio de retención forzada del aire, sino de observación silenciosa. La respiración ocurre por sí sola; el practicante entrena a la mente a permanecer quieta junto a un fenómeno vivo y presente.",
+            steps: [
+              { title: "Punto de contacto", desc: "Fija la atención en el borde de las fosas nasales o el labio superior donde roza el aire." },
+              { title: "Respetar el ritmo natural", desc: "Permite que la respiración sea superficial o profunda por sí misma sin empujarla." },
+              { title: "Ciclos de 10", desc: "Cuenta del 1 al 10 en cada exhalación; si pierdes la cuenta, vuelve a empezar desde 1 con calma." }
+            ],
+            source: "Ānāpānasati Sutta (MN 118)",
+            connections: ["sati", "samatha", "vipassana", "samadhi"]
+          },
+          {
+            id: "vipassana",
+            code: "04.2",
+            type: "Método Analítico",
+            name: "Vipassanā",
+            pali: "विपस्सना · Visión Cabal",
+            translation: "Inspección de la realidad tal como es",
+            summary: "Observación directa de sensaciones y pensamientos para comprobar en carne propia su carácter transitorio.",
+            quote: "«No aceptes algo solo por tradición; cuando lo verifiques por experiencia propia, habítalo.»",
+            essence: "Una vez que la mente está en calma (Samatha), Vipassanā dirige esa lupa hacia las sensaciones físicas y los estados mentales para ver cómo surgen, cambian de intensidad y se disuelven instante tras instante.",
+            steps: [
+              { title: "Escaneo imparcial", desc: "Recorre el cuerpo notando temperatura, presión o vibración sin buscar relajación, solo observación." },
+              { title: "Ver la disolución", desc: "Enfócate en el final exacto de cada inhalación, el final de cada sonido y el final de cada pensamiento." },
+              { title: "Integración abierta", desc: "Lleva la misma calidad de observación silenciosa al caminar o tomar una taza de café." }
+            ],
+            source: "Kālāma Sutta (AN 3.65) · MN 10",
+            connections: ["anicca", "anapanasati", "panna", "samatha"]
+          },
+          {
+            id: "samatha",
+            code: "04.3",
+            type: "Método de Calma",
+            name: "Samatha",
+            pali: "समथ · Serenidad",
+            translation: "Apaciguamiento del ruido mental",
+            summary: "El enfriamiento de la agitación cognitiva para que la mente funcione como agua quieta y transparente.",
+            quote: "«Como un lago sin viento refleja con nitidez las montañas, la mente serena ve con claridad.»",
+            essence: "Samatha y Vipassanā son las dos alas de la práctica. Mientras el agua de un estanque esté revuelta por olas de prisa y preocupación, es imposible ver el fondo; Samatha decanta el sedimento mental.",
+            steps: [
+              { title: "Estabilizar la postura", desc: "Siéntate con la columna erguida pero sin rigidez, dejando caer el peso de los hombros." },
+              { title: "Soltar la agenda por 5 minutos", desc: "Declara conscientemente que durante los próximos minutos no tienes ningún problema que resolver." },
+              { title: "Descansar en la quietud", desc: "Nota el bienestar silencioso que aparece cuando la mente deja de saltar hacia el futuro." }
+            ],
+            source: "Samatha-vipassanā Sutta (AN 2.30)",
+            connections: ["anapanasati", "samadhi", "vipassana", "nirodha"]
+          },
+          {
+            id: "sampajanna",
+            code: "04.4",
+            type: "Práctica en Movimiento",
+            name: "Sampajañña",
+            pali: "सम्पजञ्ञ · Comprensión Clara",
+            translation: "Lucidez en la acción cotidiana",
+            summary: "Llevar la presencia meditativa fuera del cojín hacia el caminar, trabajar, hablar y decidir.",
+            quote: "«Actúa con plena consciencia al avanzar y al retroceder, al hablar y al guardar silencio.»",
+            essence: "Si Sati es recordar estar presente, Sampajañña es comprender con claridad qué estamos haciendo, por qué lo hacemos y si es adecuado al contexto mientras nos movemos en el mundo.",
+            steps: [
+              { title: "Transiciones conscientes", desc: "Al levantarte de la silla o abrir una puerta, siente el movimiento completo de principio a fin." },
+              { title: "Claridad de propósito", desc: "Antes de iniciar una tarea o abrir una aplicación, pregúntate: ¿cuál es mi intención exacta aquí?" },
+              { title: "Ritmo deliberado", desc: "Camina o escribe un 10% más pausado de lo habitual para desactivar la sensación de urgencia." }
+            ],
+            source: "Satipaṭṭhāna Sutta — Sección Sampajañña (MN 10)",
+            connections: ["sati", "samma_vaca", "panna", "anapanasati"]
+          },
+          {
+            id: "samma_vaca",
+            code: "04.5",
+            type: "Ética Aplicada",
+            name: "Sammā Vācā",
+            pali: "सम्मा वाचा · Habla Correcta",
+            translation: "Comunicación veraz, útil y oportuna",
+            summary: "Entrenamiento de la palabra escrita y hablada como extensión directa de la atención plena.",
+            quote: "«Habla en el momento oportuno, con la verdad, con suavidad y solo de aquello que aporta valor.»",
+            essence: "En el Noble Camino Óctuple, la ética (Sīla) no es un mandamiento moralista, sino una herramienta para no agitar nuestra propia mente. El Buda propuso un filtro de 4 preguntas antes de hablar: ¿Es verdadero? ¿Es útil? ¿Es amable? ¿Es el momento adecuado?",
+            steps: [
+              { title: "El filtro de las 4 puertas", desc: "Si lo que vas a decir es cierto pero inútil o agresivo, elige el silencio consciente." },
+              { title: "Ayuno de queja y rumor", desc: "Pasa un día entero evitando comentarios despectivos sobre terceros o quejas repetitivas." },
+              { title: "Escucha sin interrumpir", desc: "Escucha el argumento completo de tu interlocutor sin preparar tu defensa mientras él habla." }
+            ],
+            source: "Abhaya Sutta (MN 58)",
+            connections: ["sampajanna", "karuna", "sati", "upekkha"]
+          }
+        ]
+      }
+    ];
+
+    const TOTAL_NODES = REPOSITORY.reduce((acc, p) => acc + p.nodes.length, 0);
+
+    let currentState = "pillars"; // "pillars" | "nodes" | "card"
+    let activePillarId = null;
+    let activeNodeId = null;
+
+    let readNodes = new Set(JSON.parse(localStorage.getItem("bc_read_nodes") || "[]"));
+    let sessionTrail = [];
+
+    let timerInterval = null;
+    let timerSeconds = 60;
+    let timerRunning = false;
+
+    let searchMatches = [];
+    let searchSelectedIndex = 0;
+
+    const stageEl = document.getElementById("stage");
+    const pillarsContainer = document.getElementById("pillarsContainer");
+    const nodesGrid = document.getElementById("nodesGrid");
+    const cardStage = document.getElementById("cardStage");
+    const backBtn = document.getElementById("backBtn");
+    const breadcrumb = document.getElementById("breadcrumb");
+    const searchInput = document.getElementById("searchInput");
+    const searchResults = document.getElementById("searchResults");
+
+    function normalizeText(str) {
+      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
+    function init() {
+      const savedTheme = localStorage.getItem("bc_theme") || "light";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      document.getElementById("themeBtn").textContent = savedTheme === "dark" ? "Modo: Oscuro" : "Modo: Claro";
+
+      renderPillars();
+      updateProgressCounter();
+      setupSearch();
+      setupKeyboardNavigation();
+
+      window.addEventListener("hashchange", syncFromHash);
+      if (window.location.hash) {
+        syncFromHash();
+      } else {
+        updateUIState();
+      }
+    }
+
+    function renderPillars() {
+      pillarsContainer.innerHTML = REPOSITORY.map(p => `
+        <article class="pillar ${activePillarId === p.id ? 'active' : ''}" onclick="handlePillarClick('${p.id}')">
+          <div class="pillar-num">${p.num} / 04</div>
+          <div class="pillar-center">
+            <span class="pillar-pali">${p.pali}</span>
+            <h2 class="pillar-title">${p.title}</h2>
+            <p class="pillar-desc">${p.desc}</p>
+          </div>
+          <div class="pillar-footer">
+            <span>${p.nodes.length} Nodos</span>
+            <span class="pillar-arrow">→</span>
+          </div>
+          <div class="pillar-vertical-label">${p.num} · ${p.title}</div>
+        </article>
+      `).join("");
+    }
+
+    function handlePillarClick(pillarId) {
+      if (currentState === "card" && activePillarId !== pillarId) {
+        const pillar = REPOSITORY.find(p => p.id === pillarId);
+        activePillarId = pillarId;
+        document.getElementById("nodesHeaderLabel").textContent = `Eje ${pillar.num} — ${pillar.title}`;
+        renderPillars();
+        renderNodes(pillar);
+        selectNode(pillar.nodes[0].id);
+        return;
+      }
+      selectPillar(pillarId);
+    }
+
+    function selectPillar(pillarId, updateHash = true) {
+      stopPracticeTimer();
+      activePillarId = pillarId;
+      activeNodeId = null;
+      currentState = "nodes";
+
+      const pillar = REPOSITORY.find(p => p.id === pillarId);
+      document.getElementById("nodesHeaderLabel").textContent = `Eje ${pillar.num} — ${pillar.title}`;
+
+      renderPillars();
+      renderNodes(pillar);
+      updateUIState();
+
+      if (updateHash) {
+        history.replaceState(null, "", `#${pillarId}`);
+      }
+    }
+
+    function renderNodes(pillar) {
+      nodesGrid.innerHTML = pillar.nodes.map((n) => {
+        const isRead = readNodes.has(n.id);
+        return `
+          <article class="node-item ${activeNodeId === n.id ? 'active' : ''}" id="node-${n.id}" onclick="selectNode('${n.id}')">
+            <div>
+              <div class="node-top">
+                <span class="node-code">
+                  <span class="read-dot ${isRead ? 'is-read' : ''}" title="${isRead ? 'Concepto estudiado' : 'Pendiente por leer'}">${isRead ? '●' : '○'}</span>
+                  ${n.code}
+                </span>
+                <span class="node-type">${n.type}</span>
+              </div>
+              <h3 class="node-name">${n.name}</h3>
+              <div class="node-translation">${n.translation}</div>
+              <p class="node-summary">${n.summary}</p>
+            </div>
+            <div class="node-bottom">
+              <span>${n.source}</span>
+              <span>Abrir ficha →</span>
+            </div>
+          </article>
+        `;
+      }).join("");
+
+      pillar.nodes.forEach((n, idx) => {
+        setTimeout(() => {
+          const el = document.getElementById(`node-${n.id}`);
+          if (el) el.classList.add("reveal");
+        }, 45 * (idx + 1));
+      });
+    }
+
+    function findNodeById(nodeId) {
+      for (const p of REPOSITORY) {
+        const found = p.nodes.find(n => n.id === nodeId);
+        if (found) return { pillar: p, node: found };
+      }
+      return null;
+    }
+
+    function selectNode(nodeId, updateHash = true) {
+      const result = findNodeById(nodeId);
+      if (!result) return;
+
+      stopPracticeTimer();
+
+      const wasAlreadyInCard = currentState === "card";
+
+      if (activePillarId !== result.pillar.id) {
+        activePillarId = result.pillar.id;
+        document.getElementById("nodesHeaderLabel").textContent = `Eje ${result.pillar.num} — ${result.pillar.title}`;
+        renderPillars();
+        renderNodes(result.pillar);
+      }
+
+      activeNodeId = nodeId;
+      currentState = "card";
+
+      readNodes.add(nodeId);
+      localStorage.setItem("bc_read_nodes", JSON.stringify([...readNodes]));
+      updateProgressCounter();
+
+      if (sessionTrail[sessionTrail.length - 1] !== nodeId) {
+        sessionTrail.push(nodeId);
+        if (sessionTrail.length > 8) sessionTrail.shift();
+      }
+
+      document.querySelectorAll(".node-item").forEach(el => el.classList.remove("active"));
+      const activeEl = document.getElementById(`node-${nodeId}`);
+      if (activeEl) {
+        activeEl.classList.add("active");
+        activeEl.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        const dot = activeEl.querySelector(".read-dot");
+        if (dot) {
+          dot.classList.add("is-read");
+          dot.textContent = "●";
+        }
+      }
+
+      const existingInner = cardStage.querySelector(".card-inner");
+      if (wasAlreadyInCard && existingInner) {
+        existingInner.classList.add("switching");
+        setTimeout(() => {
+          renderAtomicCard(result.pillar, result.node);
+        }, 170);
+      } else {
+        renderAtomicCard(result.pillar, result.node);
+      }
+
+      updateUIState();
+
+      if (updateHash) {
+        history.replaceState(null, "", `#${result.pillar.id}/${nodeId}`);
+      }
+    }
+
+    function renderAtomicCard(pillar, node) {
+      const connButtons = node.connections.map(connId => {
+        const target = findNodeById(connId);
+        if (!target) return "";
+        return `
+          <button class="conn-chip" onclick="selectNode('${target.node.id}')">
+            ${target.node.name} <span>${target.node.translation} →</span>
+          </button>
+        `;
+      }).join("");
+
+      const stepsHtml = node.steps.map((s, i) => `
+        <li class="practice-step">
+          <span class="step-num">0${i + 1}</span>
+          <div class="step-text">
+            <strong>${s.title}</strong>
+            ${s.desc}
+          </div>
+        </li>
+      `).join("");
+
+      const trailHtml = sessionTrail.map((tid, idx) => {
+        const t = findNodeById(tid);
+        if (!t) return "";
+        const isCurrent = tid === node.id;
+        return `
+          ${idx > 0 ? '<span>→</span>' : ''}
+          <button class="trail-node ${isCurrent ? 'current' : ''}" onclick="selectNode('${tid}')">${t.node.name}</button>
+        `;
+      }).join("");
+
+      cardStage.innerHTML = `
+        <div class="card-inner">
+          <div class="atomic-header">
+            <div>
+              <div class="atomic-meta">
+                <span>Eje ${pillar.num} · ${pillar.title}</span>
+                <span>·</span>
+                <span>${node.type}</span>
+                <span>·</span>
+                <span>Ref: ${node.source}</span>
+              </div>
+              <h1 class="atomic-title">${node.name} — <em>${node.translation}</em></h1>
+            </div>
+            <div class="atomic-pali-badge">${node.pali}</div>
+          </div>
+
+          <div class="atomic-grid">
+            <div class="atomic-cell">
+              <div>
+                <div class="cell-tag">01. Síntesis Conceptual</div>
+                <blockquote class="essence-quote">${node.quote}</blockquote>
+                <p class="essence-body">${node.essence}</p>
+              </div>
+              <div class="stage-label" style="margin-top: 24px;">Lectura atómica · Sin ruido doctrinal</div>
+            </div>
+
+            <div class="atomic-cell">
+              <div>
+                <div class="cell-tag">02. Observación Práctica (3 pasos)</div>
+                <ul class="practice-steps">
+                  ${stepsHtml}
+                </ul>
+              </div>
+
+              <div class="practice-timer-box">
+                <div class="timer-row">
+                  <span class="stage-label">Pausa de contemplación silenciosa</span>
+                  <div style="display:flex; align-items:center; gap:12px;">
+                    <span class="timer-display" id="timerDisplay">01:00</span>
+                    <button class="btn-minimal" id="timerBtn" onclick="togglePracticeTimer()">Iniciar 1 min</button>
+                  </div>
+                </div>
+                <div class="timer-bar-track">
+                  <div class="timer-bar-fill" id="timerBarFill"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="atomic-connections">
+              <div class="connections-row">
+                <span class="stage-label">03. Conceptos Interconectados:</span>
+                <div class="conn-list">
+                  ${connButtons}
+                </div>
+              </div>
+
+              <div class="session-trail">
+                <span>Hilo de estudio:</span>
+                ${trailHtml}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function togglePracticeTimer() {
+      const btn = document.getElementById("timerBtn");
+      if (!btn) return;
+
+      if (timerRunning) {
+        stopPracticeTimer();
+        return;
+      }
+
+      timerRunning = true;
+      timerSeconds = 60;
+      btn.textContent = "Detener";
+
+      timerInterval = setInterval(() => {
+        timerSeconds--;
+        const display = document.getElementById("timerDisplay");
+        const bar = document.getElementById("timerBarFill");
+        if (!display || !bar) {
+          stopPracticeTimer();
+          return;
+        }
+
+        const secs = String(timerSeconds).padStart(2, "0");
+        display.textContent = `00:${secs}`;
+        const progress = ((60 - timerSeconds) / 60) * 100;
+        bar.style.width = `${progress}%`;
+
+        if (timerSeconds <= 0) {
+          clearInterval(timerInterval);
+          timerRunning = false;
+          display.textContent = "Completado";
+          btn.textContent = "Reiniciar";
+        }
+      }, 1000);
+    }
+
+    function stopPracticeTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerRunning = false;
+      timerSeconds = 60;
+      const display = document.getElementById("timerDisplay");
+      const bar = document.getElementById("timerBarFill");
+      const btn = document.getElementById("timerBtn");
+      if (display) display.textContent = "01:00";
+      if (bar) bar.style.width = "0%";
+      if (btn) btn.textContent = "Iniciar 1 min";
+    }
+
+    function setupSearch() {
+      searchInput.addEventListener("input", () => {
+        const q = normalizeText(searchInput.value.trim());
+        if (!q) {
+          closeSearch();
+          return;
+        }
+
+        searchMatches = [];
+        REPOSITORY.forEach(p => {
+          p.nodes.forEach(n => {
+            const haystack = normalizeText(`${n.name} ${n.translation} ${n.pali} ${n.summary} ${n.code} ${n.source}`);
+            if (haystack.includes(q)) {
+              searchMatches.push({ pillar: p, node: n });
+            }
+          });
+        });
+
+        searchSelectedIndex = 0;
+        renderSearchResults();
+      });
+
+      searchInput.addEventListener("keydown", (e) => {
+        if (!searchResults.classList.contains("open")) return;
+
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          searchSelectedIndex = (searchSelectedIndex + 1) % Math.max(1, searchMatches.length);
+          renderSearchResults();
+        } else if (e.key === "ArrowUp") {
+          e.preventDefault();
+          searchSelectedIndex = (searchSelectedIndex - 1 + Math.max(1, searchMatches.length)) % Math.max(1, searchMatches.length);
+          renderSearchResults();
+        } else if (e.key === "Enter" && searchMatches[searchSelectedIndex]) {
+          e.preventDefault();
+          const chosen = searchMatches[searchSelectedIndex];
+          closeSearch();
+          searchInput.blur();
+          selectNode(chosen.node.id);
+        }
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!document.getElementById("searchBox").contains(e.target)) {
+          searchResults.classList.remove("open");
+        }
+      });
+    }
+
+    function renderSearchResults() {
+      searchResults.classList.add("open");
+      if (searchMatches.length === 0) {
+        searchResults.innerHTML = `<div class="search-result-item"><span class="sr-meta">Sin coincidencias</span></div>`;
+        return;
+      }
+
+      searchResults.innerHTML = searchMatches.map((item, idx) => `
+        <div class="search-result-item ${idx === searchSelectedIndex ? 'selected' : ''}" onclick="pickSearchNode('${item.node.id}')">
+          <div>
+            <div class="sr-title">${item.node.name} — <em>${item.node.translation}</em></div>
+            <div class="sr-meta">Eje ${item.pillar.num}: ${item.pillar.title}</div>
+          </div>
+          <span class="sr-meta">${item.node.code} ↵</span>
+        </div>
+      `).join("");
+    }
+
+    function pickSearchNode(nodeId) {
+      closeSearch();
+      selectNode(nodeId);
+    }
+
+    function closeSearch() {
+      searchInput.value = "";
+      searchMatches = [];
+      searchResults.classList.remove("open");
+    }
+
+    function setupKeyboardNavigation() {
+      window.addEventListener("keydown", (e) => {
+        if ((e.key === "/" && document.activeElement !== searchInput) || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k")) {
+          e.preventDefault();
+          searchInput.focus();
+          searchInput.select();
+          return;
+        }
+
+        if (e.key === "Escape") {
+          if (document.activeElement === searchInput || searchResults.classList.contains("open")) {
+            closeSearch();
+            searchInput.blur();
+          } else {
+            stepBack();
+          }
+          return;
+        }
+
+        if (document.activeElement !== searchInput && activePillarId && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
+          const pillar = REPOSITORY.find(p => p.id === activePillarId);
+          if (!pillar) return;
+          e.preventDefault();
+
+          const currentIndex = pillar.nodes.findIndex(n => n.id === activeNodeId);
+          let nextIndex = 0;
+          if (currentIndex === -1) {
+            nextIndex = 0;
+          } else if (e.key === "ArrowDown") {
+            nextIndex = (currentIndex + 1) % pillar.nodes.length;
+          } else {
+            nextIndex = (currentIndex - 1 + pillar.nodes.length) % pillar.nodes.length;
+          }
+          selectNode(pillar.nodes[nextIndex].id);
+        }
+      });
+    }
+
+    function goToNodesStep() {
+      if (activePillarId && currentState === "card") {
+        stepBack();
+      }
+    }
+
+    function stepBack() {
+      stopPracticeTimer();
+      if (currentState === "card") {
+        currentState = "nodes";
+        activeNodeId = null;
+        document.querySelectorAll(".node-item").forEach(el => el.classList.remove("active"));
+        history.replaceState(null, "", `#${activePillarId}`);
+      } else if (currentState === "nodes") {
+        resetToHome();
+        return;
+      }
+      updateUIState();
+    }
+
+    function resetToHome() {
+      stopPracticeTimer();
+      currentState = "pillars";
+      activePillarId = null;
+      activeNodeId = null;
+      renderPillars();
+      updateUIState();
+      history.replaceState(null, "", window.location.pathname);
+    }
+
+    function syncFromHash() {
+      const raw = window.location.hash.replace(/^#/, "");
+      if (!raw) {
+        resetToHome();
+        return;
+      }
+      const [pillarPart, nodePart] = raw.split("/");
+      const pillar = REPOSITORY.find(p => p.id === pillarPart);
+      if (!pillar) return;
+
+      if (nodePart) {
+        selectNode(nodePart, false);
+      } else {
+        selectPillar(pillar.id, false);
+      }
+    }
+
+    function updateUIState() {
+      stageEl.className = "";
+      if (currentState === "nodes") stageEl.classList.add("state-nodes");
+      if (currentState === "card") stageEl.classList.add("state-card");
+
+      backBtn.style.display = currentState === "pillars" ? "none" : "inline-block";
+
+      const links = breadcrumb.querySelectorAll(".step-link");
+      const bcNodes = document.getElementById("bcNodes");
+      const bcCard = document.getElementById("bcCard");
+
+      links[0].classList.toggle("active", currentState === "pillars");
+      bcNodes.classList.toggle("active", currentState === "nodes");
+      bcNodes.classList.toggle("disabled", currentState === "pillars");
+
+      bcCard.classList.toggle("active", currentState === "card");
+      bcCard.classList.toggle("disabled", currentState !== "card");
+    }
+
+    function updateProgressCounter() {
+      const counter = document.getElementById("progressCounter");
+      if (counter) {
+        counter.textContent = `${readNodes.size}/${TOTAL_NODES} Leídos`;
+      }
+    }
+
+    function toggleTheme() {
+      const root = document.documentElement;
+      const isDark = root.getAttribute("data-theme") === "dark";
+      const nextTheme = isDark ? "light" : "dark";
+      root.setAttribute("data-theme", nextTheme);
+      localStorage.setItem("bc_theme", nextTheme);
+      document.getElementById("themeBtn").textContent = isDark ? "Modo: Claro" : "Modo: Oscuro";
+    }
+
+    init();
+  </script>
+</body>
+</html>

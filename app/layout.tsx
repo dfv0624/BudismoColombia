@@ -16,19 +16,13 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'Anicca Mind - Encuentra la paz en el límite del silencio',
-  description: 'Discover tranquility through mindful meditation and embrace the stillness that exists between thoughts and breath.',
-  keywords: ['meditation', 'mindfulness', 'mental health', 'wellness', 'calm', 'peace', 'breathing', 'anicca'],
-  authors: [{ name: 'Anicca Mind' }],
-  openGraph: {
-    title: 'Anicca Mind - Encuentra la paz en el límite del silencio',
-    description: 'Discover tranquility through mindful meditation and embrace the stillness that exists between thoughts and breath.',
-    type: 'website',
-  },
+  title: 'BUDISMO COLOMBIA — Archivo Conceptual',
+  description: 'Repositorio conceptual de budismo: ejes, nodos y fichas de práctica.',
+  authors: [{ name: 'Budismo Colombia' }],
 }
 
 export const viewport: Viewport = {
-  themeColor: '#2d2a26',
+  themeColor: '#F7F6F2',
   width: 'device-width',
   initialScale: 1,
 }
