@@ -15,6 +15,28 @@ const THEME_KEY = "bc_theme"
 const TRAIL_LIMIT = 8
 const SWITCH_DELAY = 170
 
+// State lives in query params (?eje=&nodo=) rather than the hash: hashes like
+// "#eje/nodo" are not valid CSS selectors and break tooling that runs
+// document.querySelector(location.hash). Legacy hash links are still accepted.
+function readUrl(): { pillarId: string | null; nodeId: string | null } {
+  const params = new URLSearchParams(window.location.search)
+  const pillarId = params.get("eje")
+  if (pillarId) return { pillarId, nodeId: params.get("nodo") }
+
+  const legacy = window.location.hash.replace(/^#/, "")
+  if (!legacy) return { pillarId: null, nodeId: null }
+  const [pillarPart, nodePart] = decodeURIComponent(legacy).split("/")
+  return { pillarId: pillarPart || null, nodeId: nodePart || null }
+}
+
+function writeUrl(pillarId?: string, nodeId?: string) {
+  const params = new URLSearchParams()
+  if (pillarId) params.set("eje", pillarId)
+  if (nodeId) params.set("nodo", nodeId)
+  const search = params.toString()
+  history.replaceState(null, "", `${window.location.pathname}${search ? `?${search}` : ""}`)
+}
+
 export function ConceptExplorer() {
   const [view, setView] = useState<ViewState>("pillars")
   const [activePillarId, setActivePillarId] = useState<string | null>(null)
@@ -82,7 +104,7 @@ export function ConceptExplorer() {
         setDisplayedNodeId(nodeId)
       }
 
-      if (updateHash) history.replaceState(null, "", `#${result.pillar.id}/${nodeId}`)
+      if (updateHash) writeUrl(result.pillar.id, nodeId)
     },
     [view, displayedNodeId],
   )
@@ -91,21 +113,21 @@ export function ConceptExplorer() {
     setActivePillarId(pillarId)
     setActiveNodeId(null)
     setView("nodes")
-    if (updateHash) history.replaceState(null, "", `#${pillarId}`)
+    if (updateHash) writeUrl(pillarId)
   }, [])
 
   const resetToHome = useCallback(() => {
     setView("pillars")
     setActivePillarId(null)
     setActiveNodeId(null)
-    history.replaceState(null, "", window.location.pathname)
+    writeUrl()
   }, [])
 
   const stepBack = useCallback(() => {
     if (view === "card") {
       setView("nodes")
       setActiveNodeId(null)
-      history.replaceState(null, "", `#${activePillarId}`)
+      if (activePillarId) writeUrl(activePillarId)
     } else if (view === "nodes") {
       resetToHome()
     }
@@ -146,16 +168,16 @@ export function ConceptExplorer() {
   }
 
   const syncFromHash = useCallback(() => {
-    const raw = window.location.hash.replace(/^#/, "")
-    if (!raw) {
+    const { pillarId, nodeId } = readUrl()
+    if (!pillarId) {
       resetToHome()
       return
     }
-    const [pillarPart, nodePart] = raw.split("/")
-    const pillar = REPOSITORY.find((p) => p.id === pillarPart)
+    const pillar = REPOSITORY.find((p) => p.id === pillarId)
     if (!pillar) return
-    if (nodePart) selectNode(nodePart, false)
-    else selectPillar(pillar.id, false)
+    const rewriteLegacyHash = window.location.hash.length > 1
+    if (nodeId) selectNode(nodeId, rewriteLegacyHash)
+    else selectPillar(pillar.id, rewriteLegacyHash)
   }, [resetToHome, selectNode, selectPillar])
 
   const latest = useRef({ syncFromHash, stepBack, selectNode, closeSearch, view, activePillarId, activeNodeId, searchOpen })
@@ -166,11 +188,15 @@ export function ConceptExplorer() {
       setReadNodes(new Set(JSON.parse(localStorage.getItem(READ_KEY) || "[]")))
     } catch {}
     setTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light")
-    if (window.location.hash) latest.current.syncFromHash()
+    if (window.location.hash || window.location.search) latest.current.syncFromHash()
 
-    const onHashChange = () => latest.current.syncFromHash()
-    window.addEventListener("hashchange", onHashChange)
-    return () => window.removeEventListener("hashchange", onHashChange)
+    const onUrlChange = () => latest.current.syncFromHash()
+    window.addEventListener("popstate", onUrlChange)
+    window.addEventListener("hashchange", onUrlChange)
+    return () => {
+      window.removeEventListener("popstate", onUrlChange)
+      window.removeEventListener("hashchange", onUrlChange)
+    }
   }, [])
 
   useEffect(() => {
