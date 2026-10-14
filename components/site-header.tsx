@@ -1,6 +1,7 @@
 "use client"
 
-import type { ReactNode } from "react"
+import { useState, type ReactNode } from "react"
+import { ContactPanel } from "@/components/contact-panel"
 import type { ViewState } from "@/components/concept-explorer"
 
 type SiteHeaderProps = {
@@ -26,6 +27,7 @@ export function SiteHeader({
   onBack,
   onToggleTheme,
 }: SiteHeaderProps) {
+  const [contactOpen, setContactOpen] = useState(false)
   const nodesClass = ["step-link", view === "nodes" && "active", view === "pillars" && "disabled"]
     .filter(Boolean)
     .join(" ")
@@ -83,10 +85,21 @@ export function SiteHeader({
             {"← Volver"}
           </button>
         )}
+        <button
+          type="button"
+          className="btn-minimal"
+          onClick={() => setContactOpen(true)}
+          aria-haspopup="dialog"
+          aria-expanded={contactOpen}
+        >
+          {"Contacto"}
+        </button>
         <button type="button" className="btn-minimal" onClick={onToggleTheme}>
           {theme === "dark" ? "Modo: Oscuro" : "Modo: Claro"}
         </button>
       </div>
+
+      <ContactPanel open={contactOpen} onClose={() => setContactOpen(false)} />
     </header>
   )
 }
