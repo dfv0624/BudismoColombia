@@ -1,18 +1,18 @@
 :root {
-  --bg: #F7F6F2;
-  --fg: #121212;
-  --muted: #787670;
-  --line: #DFDDD6;
-  --hover-bg: #EFECE6;
+  --bg: #F4F6F8;
+  --fg: #121314;
+  --muted: #73777E;
+  --line: #DADEE3;
+  --hover-bg: #E9EDF1;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 [data-theme="dark"] {
   --bg: #0E0E0E;
-  --fg: #EDEDEB;
-  --muted: #757570;
-  --line: #242422;
-  --hover-bg: #171716;
+  --fg: #E9ECF0;
+  --muted: #72767C;
+  --line: #222426;
+  --hover-bg: #161718;
 }
 
 * {
