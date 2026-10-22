@@ -29,7 +29,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://budismocolombia.com'),
+  metadataBase: new URL('https://www.budismocolombia.com'),
   title: {
     default: 'Budismo Colombia — Repositorio Conceptual del Dharma',
     template: '%s | Budismo Colombia',
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     title: 'Budismo Colombia — Repositorio Conceptual del Dharma',
     description:
       'Archivo interactivo y mapa conceptual de filosofía budista en Colombia. Explora Impermanencia (Anicca), Fricción (Dukkha), Mente (Sati) y Meditación (Vipassana) de forma práctica.',
-    url: 'https://budismocolombia.com',
+    url: 'https://www.budismocolombia.com',
     siteName: 'Budismo Colombia',
     locale: 'es_CO',
     type: 'website',
