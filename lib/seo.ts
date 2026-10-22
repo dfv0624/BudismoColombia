@@ -1,6 +1,7 @@
 import { REPOSITORY } from "@/lib/repository"
 
-export const SITE_URL = "https://budismocolombia.com"
+// Must match the primary Vercel domain; budismocolombia.com redirects here, and Google rejects canonicals/sitemap URLs that redirect.
+export const SITE_URL = "https://www.budismocolombia.com"
 export const SITE_NAME = "Budismo Colombia"
 export const SITE_TITLE = "Budismo Colombia — Repositorio Conceptual del Dharma"
 export const SITE_DESCRIPTION =

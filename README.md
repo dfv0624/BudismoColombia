@@ -2,7 +2,7 @@
 
 Un repositorio interactivo y minimalista de conceptos de la filosofía budista, pensado para la práctica en la vida diaria. Cada concepto se presenta en una ficha breve con su término original en pali/sánscrito, una explicación clara y ejercicios concretos para aplicarlo.
 
-**Sitio:** [budismocolombia.com](https://budismocolombia.com)
+**Sitio:** [budismocolombia.com](https://www.budismocolombia.com)
 
 ## Contenido
 
