@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react"
 
 const CONTACT_EMAIL = "dfv.0624@hotmail.com"
 const CONTACT_LOCATION = "Cali, Colombia"
+const DONATE_URL =
+  "https://www.paypal.com/donate/?business=FYVXB644UKLKC&no_recurring=0&item_name=Repositorio+gratuito+para+estudiar+budismo+en+espa%C3%B1ol%2C+sin+publicidad.+Tu+aporte+mantiene+el+sitio+en+l%C3%ADnea+y+en+crecimiento.&currency_code=USD"
 
 type ContactPanelProps = {
   open: boolean
@@ -84,6 +86,24 @@ export function ContactPanel({ open, onClose }: ContactPanelProps) {
             <dd>{CONTACT_LOCATION}</dd>
           </div>
         </dl>
+
+        <section className="contact-donate" aria-labelledby="donate-title">
+          <span id="donate-title" className="contact-label">
+            {"Apoyar el proyecto"}
+          </span>
+          <p className="contact-text">
+            {"El repositorio es gratuito y sin publicidad. Si te ha sido útil, tu aporte lo mantiene en línea y en crecimiento."}
+          </p>
+          <a
+            href={DONATE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-minimal contact-donate-link"
+          >
+            {"Donar con PayPal ↗"}
+            <span className="sr-only">{" (se abre en una pestaña nueva)"}</span>
+          </a>
+        </section>
 
         <a href={`mailto:${CONTACT_EMAIL}`} className="btn-minimal contact-cta">
           {"Escribir correo →"}
