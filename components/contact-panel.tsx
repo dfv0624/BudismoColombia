@@ -92,7 +92,7 @@ export function ContactPanel({ open, onClose }: ContactPanelProps) {
             {"Apoyar el proyecto"}
           </span>
           <p className="contact-text">
-            {"El repositorio es gratuito y sin publicidad. Si te ha sido útil, tu aporte (dāna) lo mantiene en línea y en crecimiento."}
+            {"El repositorio es gratuito y sin publicidad. Si te ha sido útil, tu aporte lo mantiene en línea y en crecimiento."}
           </p>
           <a
             href={DONATE_URL}
