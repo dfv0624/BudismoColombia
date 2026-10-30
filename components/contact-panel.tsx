@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import type { UiStrings } from "@/lib/i18n"
 
 const CONTACT_EMAIL = "dfv.0624@hotmail.com"
 const CONTACT_LOCATION = "Cali, Colombia"
@@ -8,11 +9,12 @@ const DONATE_URL =
   "https://www.paypal.com/donate/?business=FYVXB644UKLKC&no_recurring=0&item_name=Repositorio+gratuito+para+estudiar+budismo+en+espa%C3%B1ol%2C+sin+publicidad.+Tu+aporte+mantiene+el+sitio+en+l%C3%ADnea+y+en+crecimiento.&currency_code=USD"
 
 type ContactPanelProps = {
+  t: UiStrings
   open: boolean
   onClose: () => void
 }
 
-export function ContactPanel({ open, onClose }: ContactPanelProps) {
+export function ContactPanel({ t, open, onClose }: ContactPanelProps) {
   const dialogRef = useRef<HTMLDialogElement>(null)
   const [copied, setCopied] = useState(false)
 
@@ -56,61 +58,57 @@ export function ContactPanel({ open, onClose }: ContactPanelProps) {
     >
       <div className="contact-inner">
         <div className="contact-top">
-          <span className="contact-label">{"Contacto"}</span>
+          <span className="contact-label">{t.contact}</span>
           <button type="button" className="btn-minimal" onClick={onClose}>
-            {"Cerrar ×"}
+            {t.contactClose}
           </button>
         </div>
 
         <h2 id="contact-title" className="contact-title">
-          {"Conversemos"}
+          {t.contactTitle}
         </h2>
-        <p className="contact-text">
-          {"Si tienes preguntas sobre algún concepto, quieres proponer un tema o colaborar con el repositorio, escríbeme."}
-        </p>
+        <p className="contact-text">{t.contactText}</p>
 
         <dl className="contact-list">
           <div className="contact-row">
-            <dt>{"Correo"}</dt>
+            <dt>{t.contactEmail}</dt>
             <dd>
               <a href={`mailto:${CONTACT_EMAIL}`} className="contact-link">
                 {CONTACT_EMAIL}
               </a>
               <button type="button" className="contact-copy" onClick={copyEmail}>
-                {copied ? "Copiado" : "Copiar"}
+                {copied ? t.contactCopied : t.contactCopy}
               </button>
             </dd>
           </div>
           <div className="contact-row">
-            <dt>{"Ubicación"}</dt>
+            <dt>{t.contactLocation}</dt>
             <dd>{CONTACT_LOCATION}</dd>
           </div>
         </dl>
 
         <section className="contact-donate" aria-labelledby="donate-title">
           <span id="donate-title" className="contact-label">
-            {"Apoyar el proyecto"}
+            {t.donateTitle}
           </span>
-          <p className="contact-text">
-            {"El repositorio es gratuito y sin publicidad. Si te ha sido útil, tu aporte lo mantiene en línea y en crecimiento."}
-          </p>
+          <p className="contact-text">{t.donateText}</p>
           <a
             href={DONATE_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-minimal contact-donate-link"
           >
-            {"Donar con PayPal ↗"}
-            <span className="sr-only">{" (se abre en una pestaña nueva)"}</span>
+            {t.donateButton}
+            <span className="sr-only">{t.newTab}</span>
           </a>
         </section>
 
         <a href={`mailto:${CONTACT_EMAIL}`} className="btn-minimal contact-cta">
-          {"Escribir correo →"}
+          {t.writeEmail}
         </a>
 
         <span className="sr-only" aria-live="polite">
-          {copied ? "Correo copiado al portapapeles" : ""}
+          {copied ? t.contactCopiedLive : ""}
         </span>
       </div>
     </dialog>

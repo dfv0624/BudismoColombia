@@ -233,6 +233,19 @@ header {
   border-color: var(--fg);
 }
 
+.lang-toggle {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.lang-toggle .lang-active {
+  font-weight: 600;
+}
+
+.lang-toggle span:not(.lang-active) {
+  opacity: 0.45;
+}
+
 /* CONTACT PANEL */
 .contact-panel {
   position: fixed;

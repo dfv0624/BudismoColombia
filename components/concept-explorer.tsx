@@ -6,7 +6,8 @@ import { NodesStage } from "@/components/nodes-stage"
 import { PillarsGrid } from "@/components/pillars-grid"
 import { SearchBox, type SearchMatch } from "@/components/search-box"
 import { SiteHeader } from "@/components/site-header"
-import { REPOSITORY, TOTAL_NODES, findNodeById, normalizeText } from "@/lib/repository"
+import { LANG_KEY, UI, type Lang } from "@/lib/i18n"
+import { REPOSITORY, TOTAL_NODES, findNodeById, getRepository, normalizeText } from "@/lib/repository"
 
 export type ViewState = "pillars" | "nodes" | "card"
 
@@ -14,7 +15,6 @@ const READ_KEY = "bc_read_nodes"
 const THEME_KEY = "bc_theme"
 const TRAIL_LIMIT = 8
 const SWITCH_DELAY = 170
-const DEFAULT_TITLE = "Budismo Colombia — Repositorio Conceptual del Dharma"
 
 // State lives in query params (?eje=&nodo=) rather than the hash: hashes like
 // "#eje/nodo" are not valid CSS selectors and break tooling that runs
@@ -48,6 +48,9 @@ export function ConceptExplorer() {
   const [trail, setTrail] = useState<string[]>([])
   const [theme, setTheme] = useState<"light" | "dark">("light")
   const [cardVisit, setCardVisit] = useState(0)
+  const [lang, setLang] = useState<Lang>("es")
+  const t = UI[lang]
+  const repository = getRepository(lang)
 
   const [query, setQuery] = useState("")
   const [searchOpen, setSearchOpen] = useState(false)
@@ -55,20 +58,23 @@ export function ConceptExplorer() {
   const searchInputRef = useRef<HTMLInputElement>(null)
   const switchTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const activePillar = useMemo(() => REPOSITORY.find((p) => p.id === activePillarId) ?? null, [activePillarId])
-  const displayed = displayedNodeId ? findNodeById(displayedNodeId) : null
+  const activePillar = useMemo(
+    () => repository.find((p) => p.id === activePillarId) ?? null,
+    [repository, activePillarId],
+  )
+  const displayed = displayedNodeId ? findNodeById(displayedNodeId, lang) : null
 
   const matches = useMemo<SearchMatch[]>(() => {
     const q = normalizeText(query.trim())
     if (!q) return []
-    return REPOSITORY.flatMap((pillar) =>
+    return repository.flatMap((pillar) =>
       pillar.nodes
         .filter((n) =>
           normalizeText(`${n.name} ${n.translation} ${n.pali} ${n.summary} ${n.code} ${n.source}`).includes(q),
         )
         .map((node) => ({ pillar, node })),
     )
-  }, [query])
+  }, [query, repository])
 
   const selectNode = useCallback(
     (nodeId: string, updateHash = true) => {
@@ -150,6 +156,12 @@ export function ConceptExplorer() {
     setTheme(next)
   }
 
+  function toggleLang() {
+    const next: Lang = lang === "es" ? "en" : "es"
+    localStorage.setItem(LANG_KEY, next)
+    setLang(next)
+  }
+
   const closeSearch = useCallback(() => {
     setQuery("")
     setSearchOpen(false)
@@ -189,6 +201,7 @@ export function ConceptExplorer() {
       setReadNodes(new Set(JSON.parse(localStorage.getItem(READ_KEY) || "[]")))
     } catch {}
     setTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light")
+    if (localStorage.getItem(LANG_KEY) === "en") setLang("en")
     if (window.location.hash || window.location.search) latest.current.syncFromHash()
 
     const onUrlChange = () => latest.current.syncFromHash()
@@ -241,16 +254,20 @@ export function ConceptExplorer() {
     if (switchTimer.current) clearTimeout(switchTimer.current)
   }, [])
 
-  const activeNode = activeNodeId ? findNodeById(activeNodeId)?.node : null
+  useEffect(() => {
+    document.documentElement.lang = lang
+  }, [lang])
+
+  const activeNode = activeNodeId ? findNodeById(activeNodeId, lang)?.node : null
   useEffect(() => {
     if (view === "card" && activeNode) {
       document.title = `${activeNode.name} — ${activeNode.translation} | Budismo Colombia`
     } else if (view === "nodes" && activePillar) {
       document.title = `${activePillar.title} (${activePillar.pali}) | Budismo Colombia`
     } else {
-      document.title = DEFAULT_TITLE
+      document.title = t.defaultTitle
     }
-  }, [view, activePillar, activeNode])
+  }, [view, activePillar, activeNode, t])
 
   const stageClass = view === "nodes" ? "state-nodes" : view === "card" ? "state-card" : ""
 
@@ -261,6 +278,9 @@ export function ConceptExplorer() {
         readCount={readNodes.size}
         totalCount={TOTAL_NODES}
         theme={theme}
+        lang={lang}
+        t={t}
+        onToggleLang={toggleLang}
         onHome={resetToHome}
         onNodesStep={() => {
           if (activePillarId && view === "card") stepBack()
@@ -275,6 +295,7 @@ export function ConceptExplorer() {
             matches={matches}
             selectedIndex={selectedIndex}
             totalCount={TOTAL_NODES}
+            t={t}
             onQueryChange={handleQueryChange}
             onSelectedIndexChange={setSelectedIndex}
             onPick={pickSearchNode}
@@ -284,9 +305,10 @@ export function ConceptExplorer() {
       />
 
       <main id="stage" className={stageClass}>
-        <PillarsGrid activePillarId={activePillarId} onSelect={handlePillarClick} />
+        <PillarsGrid pillars={repository} t={t} activePillarId={activePillarId} onSelect={handlePillarClick} />
         <NodesStage
           pillar={activePillar}
+          t={t}
           activeNodeId={activeNodeId}
           readNodes={readNodes}
           onSelect={(id) => selectNode(id)}
@@ -297,6 +319,8 @@ export function ConceptExplorer() {
               pillar={displayed.pillar}
               node={displayed.node}
               trail={trail}
+              lang={lang}
+              t={t}
               switching={switching}
               timerKey={`${displayed.node.id}-${cardVisit}`}
               onSelect={(id) => selectNode(id)}
