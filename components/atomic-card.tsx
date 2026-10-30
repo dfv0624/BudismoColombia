@@ -2,28 +2,31 @@
 
 import { Fragment } from "react"
 import { PracticeTimer } from "@/components/practice-timer"
+import type { Lang, UiStrings } from "@/lib/i18n"
 import { findNodeById, type ConceptNode, type Pillar } from "@/lib/repository"
 
 type AtomicCardProps = {
   pillar: Pillar
   node: ConceptNode
   trail: string[]
+  lang: Lang
+  t: UiStrings
   switching: boolean
   timerKey: string
   onSelect: (nodeId: string) => void
 }
 
-export function AtomicCard({ pillar, node, trail, switching, timerKey, onSelect }: AtomicCardProps) {
+export function AtomicCard({ pillar, node, trail, lang, t, switching, timerKey, onSelect }: AtomicCardProps) {
   return (
     <div className={`card-inner ${switching ? "switching" : ""}`}>
       <div className="atomic-header">
         <div>
           <div className="atomic-meta">
-            <span>{`Eje ${pillar.num} · ${pillar.title}`}</span>
+            <span>{`${t.pillar} ${pillar.num} · ${pillar.title}`}</span>
             <span>·</span>
             <span>{node.type}</span>
             <span>·</span>
-            <span>{`Ref: ${node.source}`}</span>
+            <span>{`${t.cardRef}: ${node.source}`}</span>
           </div>
           <h1 className="atomic-title">
             {node.name} — <em>{node.translation}</em>
@@ -35,18 +38,18 @@ export function AtomicCard({ pillar, node, trail, switching, timerKey, onSelect 
       <div className="atomic-grid">
         <div className="atomic-cell">
           <div>
-            <div className="cell-tag">01. Síntesis Conceptual</div>
+            <div className="cell-tag">{t.cellSynthesis}</div>
             <blockquote className="essence-quote">{node.quote}</blockquote>
             <p className="essence-body">{node.essence}</p>
           </div>
           <div className="stage-label" style={{ marginTop: 24 }}>
-            {"Lectura atómica · Sin ruido doctrinal"}
+            {t.atomicReading}
           </div>
         </div>
 
         <div className="atomic-cell">
           <div>
-            <div className="cell-tag">02. Observación Práctica (3 pasos)</div>
+            <div className="cell-tag">{t.cellPractice}</div>
             <ul className="practice-steps">
               {node.steps.map((s, i) => (
                 <li key={s.title} className="practice-step">
@@ -58,15 +61,15 @@ export function AtomicCard({ pillar, node, trail, switching, timerKey, onSelect 
               ))}
             </ul>
           </div>
-          <PracticeTimer key={timerKey} />
+          <PracticeTimer key={timerKey} t={t} />
         </div>
 
         <div className="atomic-connections">
           <div className="connections-row">
-            <span className="stage-label">03. Conceptos Interconectados:</span>
+            <span className="stage-label">{t.cellConnections}</span>
             <div className="conn-list">
               {node.connections.map((connId) => {
-                const target = findNodeById(connId)
+                const target = findNodeById(connId, lang)
                 if (!target) return null
                 return (
                   <button key={connId} type="button" className="conn-chip" onClick={() => onSelect(target.node.id)}>
@@ -78,7 +81,7 @@ export function AtomicCard({ pillar, node, trail, switching, timerKey, onSelect 
           </div>
 
           <div className="session-trail">
-            <span>Hilo de estudio:</span>
+            <span>{t.trail}</span>
             {trail.map((tid, idx) => {
               const t = findNodeById(tid)
               if (!t) return null

@@ -1,25 +1,32 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import type { UiStrings } from "@/lib/i18n"
 import type { Pillar } from "@/lib/repository"
 
 type NodesStageProps = {
   pillar: Pillar | null
+  t: UiStrings
   activeNodeId: string | null
   readNodes: Set<string>
   onSelect: (nodeId: string) => void
 }
 
-export function NodesStage({ pillar, activeNodeId, readNodes, onSelect }: NodesStageProps) {
+export function NodesStage({ pillar, t, activeNodeId, readNodes, onSelect }: NodesStageProps) {
   const [revealed, setRevealed] = useState(0)
   const nodeRefs = useRef(new Map<string, HTMLElement>())
+  const pillarId = pillar?.id
+  const nodeCount = pillar?.nodes.length ?? 0
 
+  // Keyed on the pillar id, not the object, so switching language doesn't replay the reveal.
   useEffect(() => {
     setRevealed(0)
-    if (!pillar) return
-    const timers = pillar.nodes.map((_, idx) => setTimeout(() => setRevealed(idx + 1), 45 * (idx + 1)))
+    if (!pillarId) return
+    const timers = Array.from({ length: nodeCount }, (_, idx) =>
+      setTimeout(() => setRevealed(idx + 1), 45 * (idx + 1)),
+    )
     return () => timers.forEach(clearTimeout)
-  }, [pillar])
+  }, [pillarId, nodeCount])
 
   useEffect(() => {
     if (activeNodeId) {
@@ -30,8 +37,8 @@ export function NodesStage({ pillar, activeNodeId, readNodes, onSelect }: NodesS
   return (
     <section className="nodes-stage" id="nodesStage">
       <div className="stage-header">
-        <span className="stage-label">{pillar ? `Eje ${pillar.num} — ${pillar.title}` : "Nodos del Eje"}</span>
-        <span className="stage-label">{"Flechas [↑/↓] o clic para abrir ficha"}</span>
+        <span className="stage-label">{pillar ? `${t.pillar} ${pillar.num} — ${pillar.title}` : t.nodesDefault}</span>
+        <span className="stage-label">{t.nodesHint}</span>
       </div>
       <div className="nodes-grid" id="nodesGrid">
         {pillar?.nodes.map((n, idx) => {
@@ -55,7 +62,7 @@ export function NodesStage({ pillar, activeNodeId, readNodes, onSelect }: NodesS
                   <span className="node-code">
                     <span
                       className={`read-dot ${isRead ? "is-read" : ""}`}
-                      title={isRead ? "Concepto estudiado" : "Pendiente por leer"}
+                      title={isRead ? t.readDone : t.readPending}
                     >
                       {isRead ? "●" : "○"}
                     </span>{" "}
@@ -69,7 +76,7 @@ export function NodesStage({ pillar, activeNodeId, readNodes, onSelect }: NodesS
               </div>
               <div className="node-bottom">
                 <span>{n.source}</span>
-                <span>{"Abrir ficha →"}</span>
+                <span>{t.openCard}</span>
               </div>
             </article>
           )

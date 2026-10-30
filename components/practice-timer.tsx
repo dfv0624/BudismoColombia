@@ -1,10 +1,11 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import type { UiStrings } from "@/lib/i18n"
 
 const DURATION = 60
 
-export function PracticeTimer() {
+export function PracticeTimer({ t }: { t: UiStrings }) {
   const [running, setRunning] = useState(false)
   const [seconds, setSeconds] = useState(DURATION)
 
@@ -35,13 +36,13 @@ export function PracticeTimer() {
     setRunning(true)
   }
 
-  const display = completed ? "Completado" : `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`
-  const label = running ? "Detener" : completed ? "Reiniciar" : "Iniciar 1 min"
+  const display = completed ? t.timerDone : `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`
+  const label = running ? t.timerStop : completed ? t.timerRestart : t.timerStart
 
   return (
     <div className="practice-timer-box">
       <div className="timer-row">
-        <span className="stage-label">Pausa de contemplación silenciosa</span>
+        <span className="stage-label">{t.timerLabel}</span>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <span className="timer-display" id="timerDisplay" aria-live="polite">
             {display}

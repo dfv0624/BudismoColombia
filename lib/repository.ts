@@ -1,3 +1,6 @@
+import type { Lang } from "@/lib/i18n"
+import { NODES_EN, PILLARS_EN } from "@/lib/repository-en"
+
 export type PracticeStep = { title: string; desc: string }
 
 export type ConceptNode = {
@@ -425,8 +428,18 @@ export const REPOSITORY: Pillar[] = [
 
 export const TOTAL_NODES = REPOSITORY.reduce((acc, p) => acc + p.nodes.length, 0)
 
-export function findNodeById(nodeId: string) {
-  for (const pillar of REPOSITORY) {
+const REPOSITORY_EN: Pillar[] = REPOSITORY.map((pillar) => ({
+  ...pillar,
+  ...PILLARS_EN[pillar.id],
+  nodes: pillar.nodes.map((node) => ({ ...node, ...NODES_EN[node.id] })),
+}))
+
+export function getRepository(lang: Lang): Pillar[] {
+  return lang === "en" ? REPOSITORY_EN : REPOSITORY
+}
+
+export function findNodeById(nodeId: string, lang: Lang = "es") {
+  for (const pillar of getRepository(lang)) {
     const node = pillar.nodes.find((n) => n.id === nodeId)
     if (node) return { pillar, node }
   }

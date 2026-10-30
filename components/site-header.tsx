@@ -3,17 +3,21 @@
 import { useState, type ReactNode } from "react"
 import { ContactPanel } from "@/components/contact-panel"
 import type { ViewState } from "@/components/concept-explorer"
+import type { Lang, UiStrings } from "@/lib/i18n"
 
 type SiteHeaderProps = {
   view: ViewState
   readCount: number
   totalCount: number
   theme: "light" | "dark"
+  lang: Lang
+  t: UiStrings
   search: ReactNode
   onHome: () => void
   onNodesStep: () => void
   onBack: () => void
   onToggleTheme: () => void
+  onToggleLang: () => void
 }
 
 export function SiteHeader({
@@ -21,11 +25,14 @@ export function SiteHeader({
   readCount,
   totalCount,
   theme,
+  lang,
+  t,
   search,
   onHome,
   onNodesStep,
   onBack,
   onToggleTheme,
+  onToggleLang,
 }: SiteHeaderProps) {
   const [contactOpen, setContactOpen] = useState(false)
   const nodesClass = ["step-link", view === "nodes" && "active", view === "pillars" && "disabled"]
@@ -44,7 +51,7 @@ export function SiteHeader({
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             role="img"
-            aria-label="Logo Budismo Colombia"
+            aria-label={t.logoLabel}
           >
             <circle cx="14" cy="14" r="11.5" stroke="currentColor" strokeWidth="1.2" />
             <circle cx="14" cy="14" r="4" stroke="currentColor" strokeWidth="1" />
@@ -58,31 +65,31 @@ export function SiteHeader({
             <line x1="11.17" y1="16.83" x2="5.87" y2="22.13" stroke="currentColor" strokeWidth="1" />
           </svg>
           <span className="brand-title">Budismo Colombia</span>
-        <span className="brand-sub">/ Repositorio Conceptual</span>
+        <span className="brand-sub">{t.brandSub}</span>
       </button>
 
       {search}
 
       <div className="nav-controls">
-        <nav className="step-indicator" aria-label="Navegación por pasos">
+        <nav className="step-indicator" aria-label={t.stepsLabel}>
           <span className={`step-link ${view === "pillars" ? "active" : ""}`} onClick={onHome}>
-            01. Ejes
+            {t.stepPillars}
           </span>
           <span aria-hidden="true">{"→"}</span>
           <span className={nodesClass} onClick={onNodesStep}>
-            02. Nodos
+            {t.stepNodes}
           </span>
           <span aria-hidden="true">{"→"}</span>
-          <span className={cardClass}>03. Ficha</span>
+          <span className={cardClass}>{t.stepCard}</span>
         </nav>
 
-        <span className="progress-counter" title="Conceptos estudiados guardados en tu navegador">
-          {`${readCount}/${totalCount} Leídos`}
+        <span className="progress-counter" title={t.progressTitle}>
+          {t.readCount(readCount, totalCount)}
         </span>
 
         {view !== "pillars" && (
           <button type="button" className="btn-minimal" onClick={onBack}>
-            {"← Volver"}
+            {t.back}
           </button>
         )}
         <button
@@ -92,14 +99,19 @@ export function SiteHeader({
           aria-haspopup="dialog"
           aria-expanded={contactOpen}
         >
-          {"Contacto"}
+          {t.contact}
+        </button>
+        <button type="button" className="btn-minimal lang-toggle" onClick={onToggleLang} aria-label={t.langSwitchLabel}>
+          <span className={lang === "es" ? "lang-active" : undefined}>ES</span>
+          <span aria-hidden="true">{"/"}</span>
+          <span className={lang === "en" ? "lang-active" : undefined}>EN</span>
         </button>
         <button type="button" className="btn-minimal" onClick={onToggleTheme}>
-          {theme === "dark" ? "Modo: Oscuro" : "Modo: Claro"}
+          {theme === "dark" ? t.themeDark : t.themeLight}
         </button>
       </div>
 
-      <ContactPanel open={contactOpen} onClose={() => setContactOpen(false)} />
+      <ContactPanel t={t} open={contactOpen} onClose={() => setContactOpen(false)} />
     </header>
   )
 }

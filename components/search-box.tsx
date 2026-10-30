@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, type RefObject } from "react"
+import type { UiStrings } from "@/lib/i18n"
 import type { ConceptNode, Pillar } from "@/lib/repository"
 
 export type SearchMatch = { pillar: Pillar; node: ConceptNode }
@@ -12,6 +13,7 @@ type SearchBoxProps = {
   matches: SearchMatch[]
   selectedIndex: number
   totalCount: number
+  t: UiStrings
   onQueryChange: (value: string) => void
   onSelectedIndexChange: (index: number) => void
   onPick: (nodeId: string) => void
@@ -25,6 +27,7 @@ export function SearchBox({
   matches,
   selectedIndex,
   totalCount,
+  t,
   onQueryChange,
   onSelectedIndexChange,
   onPick,
@@ -64,9 +67,9 @@ export function SearchBox({
         type="text"
         id="searchInput"
         className="search-input"
-        placeholder={`Buscar entre ${totalCount} conceptos...`}
+        placeholder={t.searchPlaceholder(totalCount)}
         autoComplete="off"
-        aria-label="Buscar conceptos"
+        aria-label={t.searchLabel}
         value={query}
         onChange={(e) => onQueryChange(e.target.value)}
         onKeyDown={handleKeyDown}
@@ -77,7 +80,7 @@ export function SearchBox({
       <div className={`search-results ${open ? "open" : ""}`} id="searchResults" role="listbox">
         {open && matches.length === 0 && (
           <div className="search-result-item">
-            <span className="sr-meta">Sin coincidencias</span>
+            <span className="sr-meta">{t.noMatches}</span>
           </div>
         )}
         {open &&
@@ -93,7 +96,7 @@ export function SearchBox({
                 <div className="sr-title">
                   {item.node.name} — <em>{item.node.translation}</em>
                 </div>
-                <div className="sr-meta">{`Eje ${item.pillar.num}: ${item.pillar.title}`}</div>
+                <div className="sr-meta">{`${t.pillar} ${item.pillar.num}: ${item.pillar.title}`}</div>
               </div>
               <span className="sr-meta">{`${item.node.code} ↵`}</span>
             </div>

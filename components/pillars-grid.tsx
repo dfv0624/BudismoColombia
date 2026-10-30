@@ -1,18 +1,21 @@
 "use client"
 
-import { REPOSITORY } from "@/lib/repository"
+import type { UiStrings } from "@/lib/i18n"
+import type { Pillar } from "@/lib/repository"
 
 type PillarsGridProps = {
+  pillars: Pillar[]
+  t: UiStrings
   activePillarId: string | null
   onSelect: (pillarId: string) => void
 }
 
-export function PillarsGrid({ activePillarId, onSelect }: PillarsGridProps) {
-  const total = String(REPOSITORY.length).padStart(2, "0")
+export function PillarsGrid({ pillars, t, activePillarId, onSelect }: PillarsGridProps) {
+  const total = String(pillars.length).padStart(2, "0")
 
   return (
     <section className="pillars-container" id="pillarsContainer">
-      {REPOSITORY.map((p) => (
+      {pillars.map((p) => (
         <article
           key={p.id}
           className={`pillar ${activePillarId === p.id ? "active" : ""}`}
@@ -25,7 +28,7 @@ export function PillarsGrid({ activePillarId, onSelect }: PillarsGridProps) {
             <p className="pillar-desc">{p.desc}</p>
           </div>
           <div className="pillar-footer">
-            <span>{`${p.nodes.length} Nodos`}</span>
+            <span>{t.nodesCount(p.nodes.length)}</span>
             <span className="pillar-arrow">{"→"}</span>
           </div>
           <div className="pillar-vertical-label">{`${p.num} · ${p.title}`}</div>
