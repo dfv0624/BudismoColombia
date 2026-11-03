@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "cards": "python3 scripts/generate_tiktok_card.py",
+    "cards:all": "python3 scripts/generate_tiktok_card.py --all",
+    "cards:list": "python3 scripts/generate_tiktok_card.py --list"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
